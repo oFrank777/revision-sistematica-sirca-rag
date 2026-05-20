@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: hsl(220, 80%, 95%);
+  --color-primary-100: hsl(220, 80%, 90%);
+  --color-primary-200: hsl(220, 80%, 80%);
+  --color-primary-300: hsl(220, 80%, 70%);
+  --color-primary-400: hsl(220, 80%, 60%);
+  --color-primary-500: hsl(220, 80%, 50%);
+  --color-primary-600: hsl(220, 80%, 40%);
+  --color-primary-700: hsl(220, 80%, 30%);
+  --color-primary-800: hsl(220, 80%, 20%);
+  --color-primary-900: hsl(220, 80%, 12%);
+  
+  --color-success-50: hsl(140, 60%, 95%);
+  --color-primary-600: hsl(220, 80%, 40%);
+  --color-primary-900: hsl(220, 80%, 12%);
+  
+  --color-secondary-50: hsl(260, 70%, 95%);
+  --color-secondary-500: hsl(260, 70%, 55%);
+  --color-secondary-900: hsl(260, 70%, 15%);
+  
+  --color-accent-50: hsl(170, 75%, 95%);
+  --color-accent-500: hsl(170, 75%, 45%);
+  --color-accent-900: hsl(170, 75%, 12%);
+  
+  --color-academic-dark-bg: hsl(222, 30%, 8%);
+  --color-academic-dark-card: hsl(222, 25%, 12%);
+  --color-academic-dark-surface: hsl(222, 22%, 16%);
+  --color-academic-dark-border: hsl(222, 18%, 22%);
+  --color-academic-dark-text: hsl(210, 40%, 98%);
+  --color-academic-dark-muted: hsl(215, 20%, 65%);
+  
+  --color-academic-light-bg: hsl(220, 20%, 97%);
+  --color-academic-light-card: hsl(0, 0%, 100%);
+  --color-academic-light-surface: hsl(220, 15%, 95%);
+  --color-academic-light-border: hsl(220, 15%, 88%);
+  --color-academic-light-text: hsl(222, 47%, 11%);
+  --color-academic-light-muted: hsl(215, 16%, 47%);
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-academic-light-bg text-academic-light-text font-sans antialiased transition-colors duration-300;
+  }
+
+  .dark body {
+    @apply bg-academic-dark-bg text-academic-dark-text;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/70 dark:bg-academic-dark-card/70 backdrop-blur-md border border-academic-light-border dark:border-academic-dark-border shadow-lg rounded-xl transition-all duration-300;
+  }
+  
+  .glass-card-hover {
+    @apply hover:shadow-xl hover:border-primary-500/50 dark:hover:border-primary-500/50 hover:-translate-y-1;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500;
+  }
+
+  .text-gradient-accent {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary-500 to-accent-500;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-400 dark:bg-primary-600;
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "tax-01",
+    "name": "Biomedical RAG",
+    "nameEs": "RAG Biomédico",
+    "description": "Sistemas de Generación Aumentada por Recuperación aplicados específicamente al dominio médico y biomédico.",
+    "color": "hsl(220, 80%, 50%)",
+    "icon": "Stethoscope",
+    "paperCount": 5,
+    "subcategories": ["Medical QA", "Clinical Decision Support", "Biomedical Literature Search"]
+  },
+  {
+    "id": "tax-02",
+    "name": "Continual RAG",
+    "nameEs": "RAG Continuo",
+    "description": "Arquitecturas RAG que adaptan su base de conocimiento y estrategias de recuperación de forma continua o dinámica.",
+    "color": "hsl(260, 70%, 55%)",
+    "icon": "RefreshCw",
+    "paperCount": 5,
+    "subcategories": ["Adaptive Retrieval", "Self-Reflection", "Memory Updating"]
+  },
+  {
+    "id": "tax-03",
+    "name": "Agentic RAG",
+    "nameEs": "RAG Agéntico",
+    "description": "Sistemas RAG impulsados por agentes autónomos capaces de razonar, usar herramientas y planificar búsquedas.",
+    "color": "hsl(170, 75%, 45%)",
+    "icon": "Bot",
+    "paperCount": 4,
+    "subcategories": ["Autonomous Research Agents", "Multi-Agent Systems", "Tool Use in LLMs"]
+  },
+  {
+    "id": "tax-04",
+    "name": "Biomedical NLP & LLMs",
+    "nameEs": "NLP y LLMs Biomédicos",
+    "description": "Modelos de lenguaje y técnicas de procesamiento de lenguaje natural especializados en textos biomédicos.",
+    "color": "hsl(320, 70%, 50%)",
+    "icon": "Dna",
+    "paperCount": 5,
+    "subcategories": ["Domain-Specific Pretraining", "Clinical NER", "Biomedical Text Generation"]
+  },
+  {
+    "id": "tax-05",
+    "name": "Vector Memory & Embeddings",
+    "nameEs": "Memoria Vectorial y Embeddings",
+    "description": "Bases de datos vectoriales, arquitecturas de memoria persistente y modelos de embeddings para recuperación.",
+    "color": "hsl(45, 90%, 45%)",
+    "icon": "Database",
+    "paperCount": 5,
+    "subcategories": ["Dense Retrieval", "Vector Databases", "Long-term AI Memory"]
+  },
+  {
+    "id": "tax-06",
+    "name": "Scientific Knowledge Graphs",
+    "nameEs": "Grafos de Conocimiento Científico",
+    "description": "Grafos que estructuran conocimiento biomédico y su integración con sistemas de IA.",
+    "color": "hsl(15, 85%, 55%)",
+    "icon": "Network",
+    "paperCount": 5,
+    "subcategories": ["Biomedical Ontologies", "KG-LLM Integration", "Precision Medicine KGs"]
+  },
+  {
+    "id": "tax-07",
+    "name": "AI for Medicinal Plants",
+    "nameEs": "IA para Plantas Medicinales",
+    "description": "Aplicación de IA y Machine Learning en etnobotánica, farmacognosia y estudio de plantas medicinales.",
+    "color": "hsl(145, 65%, 42%)",
+    "icon": "Leaf",
+    "paperCount": 5,
+    "subcategories": ["Computational Ethnopharmacology", "Plant Classification", "Natural Product Drug Discovery"]
+  },
+  {
+    "id": "tax-08",
+    "name": "Scientific Retrieval Systems",
+    "nameEs": "Sistemas de Recuperación Científica",
+    "description": "Motores de búsqueda, plataformas y pipelines para la recuperación de literatura científica.",
+    "color": "hsl(200, 80%, 45%)",
+    "icon": "Search",
+    "paperCount": 9,
+    "subcategories": ["Document-level Embeddings", "Citation Networks", "Academic Search Engines"]
+  },
+  {
+    "id": "tax-09",
+    "name": "Evaluation & Benchmarks",
+    "nameEs": "Evaluación y Benchmarks",
+    "description": "Marcos de evaluación, métricas y conjuntos de datos para sistemas RAG y QA biomédico.",
+    "color": "hsl(350, 75%, 55%)",
+    "icon": "BarChart",
+    "paperCount": 5,
+    "subcategories": ["Automated RAG Evaluation", "Biomedical QA Benchmarks", "Retrieval Metrics"]
+  }
+]

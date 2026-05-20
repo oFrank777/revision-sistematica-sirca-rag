@@ -1,0 +1,57 @@
+[
+  {
+    "id": "gap-01",
+    "title": "Falta de Memoria Vectorial Persistente en RAG Biomédico",
+    "description": "La mayoría de los sistemas RAG biomédicos carecen de una memoria vectorial persistente a través de múltiples sesiones, lo que impide el aprendizaje continuo y la evolución del contexto del usuario investigador a lo largo del tiempo.",
+    "category": "Vector Memory & Embeddings",
+    "severity": "Crítico",
+    "relatedPapers": ["pap-rag-01", "pap-rag-05", "pap-mem-02"],
+    "sircaContribution": "SIRCA-RAG implementa una arquitectura de memoria vectorial de 3 capas (Vectores, Metadatos, Sesión) usando FAISS/ChromaDB y PostgreSQL para persistencia.",
+    "impact": 95,
+    "futureDirection": "Integrar mecanismos de consolidación de memoria inspirados en neurobiología para depurar y optimizar vectores a largo plazo."
+  },
+  {
+    "id": "gap-02",
+    "title": "Baja Adaptabilidad a Terminología Etnobotánica Local",
+    "description": "Los modelos de embeddings biomédicos actuales (e.g., PubMedBERT) están sesgados hacia la medicina occidental y carecen de representaciones densas precisas para nombres vernáculos y sinonimia de plantas medicinales peruanas (ej. Uña de gato vs Uncaria tomentosa).",
+    "category": "Biomedical NLP & LLMs",
+    "severity": "Alto",
+    "relatedPapers": ["pap-nlp-02", "pap-ethno-03"],
+    "sircaContribution": "Módulo de enriquecimiento semántico mediante diccionarios etnobotánicos locales acoplado al pipeline de indexación del RAG.",
+    "impact": 88,
+    "futureDirection": "Fine-tuning contrastivo de modelos Sentence-BERT específicamente con corpus botánico andino-amazónico."
+  },
+  {
+    "id": "gap-03",
+    "title": "Desconexión entre Recuperación Continua y Adquisición Automática",
+    "description": "Los sistemas RAG asumen corpus estáticos. No existen pipelines integrados que descubran, descarguen (via APIs científicas), dedupliquen e indexen papers biomédicos de forma autónoma y continua.",
+    "category": "Continual RAG",
+    "severity": "Crítico",
+    "relatedPapers": ["pap-crag-02", "pap-sys-03"],
+    "sircaContribution": "El Componente C4 de SIRCA-RAG define un pipeline de adquisición científica automatizada consultando cronológicamente PubMed, Semantic Scholar y EuropePMC.",
+    "impact": 92,
+    "futureDirection": "Implementar agentes web-scraping autónomos para extraer datos suplementarios y repositorios de datos asociados a los papers."
+  },
+  {
+    "id": "gap-04",
+    "title": "Evaluación Limitada de Alucinaciones en Generación Contextualizada Botánica",
+    "description": "Las métricas actuales (RAGAS, ARES) se enfocan en QA general. Faltan frameworks de evaluación específicos para medir la fidelidad en la extracción de relaciones complejas Planta-Compuesto-Actividad.",
+    "category": "Evaluation & Benchmarks",
+    "severity": "Medio",
+    "relatedPapers": ["pap-eval-01", "pap-eval-03"],
+    "sircaContribution": "Propuesta de métricas de validación cruzada y grounding explícito en las citas para las respuestas del Componente C5.",
+    "impact": 75,
+    "futureDirection": "Creación de un benchmark peruano (PeruvianEthnoQA) validado por expertos farmacognostas."
+  },
+  {
+    "id": "gap-05",
+    "title": "Subutilización de Recuperación Híbrida Adaptativa",
+    "description": "Aunque se reconoce la superioridad de la recuperación híbrida (densa + dispersa), pocos sistemas biomédicos ajustan dinámicamente los pesos relativos (alpha) basándose en la complejidad de la consulta (ej. consulta factual vs exploratoria).",
+    "category": "Scientific Retrieval Systems",
+    "severity": "Alto",
+    "relatedPapers": ["pap-hyb-01", "pap-hyb-02", "pap-crag-02"],
+    "sircaContribution": "El agente semi-autónomo (C3) de SIRCA-RAG enruta y pondera la recuperación híbrida BM25+Dense basándose en la intención clasificable de la consulta.",
+    "impact": 85,
+    "futureDirection": "Uso de meta-aprendizaje para optimizar la fusión de rangos (RRF vs CC) por cada tipo de entidad biomédica buscada."
+  }
+]

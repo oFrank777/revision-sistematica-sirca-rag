@@ -1,0 +1,50 @@
+{
+  "identification": {
+    "databaseResults": 3450,
+    "otherSources": 42,
+    "totalIdentified": 3492,
+    "duplicatesRemoved": 876,
+    "totalFound": 3450
+  },
+  "screening": {
+    "recordsScreened": 2616,
+    "recordsExcluded": 2150,
+    "excludedReasons": [
+      {
+        "reason": "No focus on RAG, AI, or Biomedical domains",
+        "count": 1205
+      },
+      {
+        "reason": "Not peer-reviewed (e.g., blogs, short opinions)",
+        "count": 432
+      },
+      {
+        "reason": "Out of date scope (< 2018, not seminal)",
+        "count": 513
+      }
+    ]
+  },
+  "eligibility": {
+    "fullTextAssessed": 466,
+    "fullTextExcluded": 391,
+    "excludedReasons": [
+      {
+        "reason": "Lack of architectural or methodological detail",
+        "count": 185
+      },
+      {
+        "reason": "Focus purely on clinical practice, no computational model",
+        "count": 112
+      },
+      {
+        "reason": "Insufficient empirical validation",
+        "count": 94
+      }
+    ]
+  },
+  "inclusion": {
+    "studiesIncluded": 125,
+    "qualitativeAnalysis": 125,
+    "quantitativeAnalysis": 125
+  }
+}
