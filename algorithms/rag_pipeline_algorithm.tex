@@ -1,0 +1,49 @@
+% ============================================================
+% rag_pipeline_algorithm.tex — Algoritmo del pipeline RAG
+% ============================================================
+
+\begin{algorithm}[!t]
+\SetAlgoLined
+\KwIn{Consulta biomédica $q$, Memoria vectorial $\memory$, Parámetros $K$, $K'$, $\alpha$}
+\KwOut{Respuesta contextualizada $r$ con citas $\{c_1, \ldots, c_{K'}\}$}
+
+\BlankLine
+\textbf{// Etapa 1: Representación de la consulta}\\
+$\emb{q} \leftarrow \embed_{\text{bio}}(q)$\;
+$q_{\text{expandida}} \leftarrow \text{ExpandirConsulta}(q, \text{MeSH})$\;
+
+\BlankLine
+\textbf{// Etapa 2: Recuperación híbrida}\\
+$\documents_{\text{denso}} \leftarrow \topk(\simcos(\emb{q}, \memory), K)$\;
+$\documents_{\text{disperso}} \leftarrow \text{BM25}(q_{\text{expandida}}, \corpus, K)$\;
+$\documents_K \leftarrow \text{FusiónRecíproca}(\documents_{\text{denso}}, \documents_{\text{disperso}}, \alpha)$\;
+
+\BlankLine
+\textbf{// Etapa 3: Reranking contextual biomédico}\\
+\ForEach{$d \in \documents_K$}{
+  $\score_{\text{rerank}}(d) \leftarrow \text{CrossEncoder}_{\text{bio}}(q, d)$\;
+}
+$\documents_{K'} \leftarrow \topk'_{\score_{\text{rerank}}} \documents_K$\;
+
+\BlankLine
+\textbf{// Etapa 4: Construcción del contexto de generación}\\
+$\text{contexto} \leftarrow \text{FormatearContexto}(\documents_{K'})$\;
+$\text{prompt} \leftarrow \text{ConstruirPrompt}(q, \text{contexto}, \mathcal{I}_{\text{ground}})$\;
+
+\BlankLine
+\textbf{// Etapa 5: Generación con grounding documental}\\
+$r \leftarrow \text{LLM}.\text{generar}(\text{prompt})$\;
+$\{c_1, \ldots, c_{K'}\} \leftarrow \text{ExtraerCitas}(r, \documents_{K'})$\;
+
+\BlankLine
+\textbf{// Etapa 6: Verificación de fundamentación}\\
+$g \leftarrow \fground(r, \documents_{K'})$\;
+\If{$g < \tau_{\text{faith}}$}{
+  $r \leftarrow \text{RegenerarConMásContexto}(q, \documents_K, \mathcal{I}_{\text{ground}})$\;
+}
+
+\Return{$r, \{c_1, \ldots, c_{K'}\}$}\;
+
+\caption{Pipeline RAG contextual biomédico de \sirca{}}
+\label{alg:rag_pipeline}
+\end{algorithm}

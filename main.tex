@@ -1,0 +1,117 @@
+% ============================================================
+% main.tex — Documento principal del proyecto SIRCA-RAG
+% Formato: IEEE Conference Paper (doble columna, 6–10 páginas)
+% Idioma: Español
+% Estado: Investigación en progreso (fase teórica)
+% ============================================================
+\documentclass[conference]{IEEEtran}
+
+% ============================================================
+% PAQUETES ESENCIALES
+% ============================================================
+
+% --- Codificación y tipografía ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+
+% --- Matemáticas ---
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+
+% --- Figuras y gráficos ---
+\usepackage{graphicx}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subcaption}
+\graphicspath{{figures/}}
+
+% --- Tablas profesionales ---
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+
+% --- Algoritmos ---
+\usepackage[ruled,vlined,linesnumbered,spanish]{algorithm2e}
+
+% --- Colores y enlaces ---
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,
+            linkcolor=blue!70!black,
+            citecolor=blue!70!black,
+            urlcolor=blue!60!black]{hyperref}
+
+% --- Código fuente ---
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red!70!black}
+}
+
+% --- Utilidades adicionales ---
+\usepackage{enumitem}
+\usepackage{balance}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{float}
+
+% ============================================================
+% COMANDOS PERSONALIZADOS
+% ============================================================
+\input{styles/custom_commands}
+
+% ============================================================
+% METADATOS DEL DOCUMENTO
+% ============================================================
+\title{SIRCA-RAG: Arquitectura Semi-Autónoma de Recuperación y Generación Contextual de Conocimiento Biomédico mediante RAG Continuo, Memoria Vectorial y Adquisición Científica Automatizada aplicada a Plantas Medicinales Peruanas}
+
+\author{
+  \IEEEauthorblockN{Ower Frank Lopez Arela}
+  \IEEEauthorblockA{Escuela Profesional de Ingeniería de Sistemas\\
+    Universidad Nacional de San Agustín de Arequipa\\
+    Arequipa, Perú\\
+    olopeza@unsa.edu.pe}
+  \and
+  \IEEEauthorblockN{Daniel Enrique Marron Carcausto}
+  \IEEEauthorblockA{Escuela Profesional de Ingeniería de Sistemas\\
+    Universidad Nacional de San Agustín de Arequipa\\
+    Arequipa, Perú\\
+    dmarron@unsa.edu.pe}
+}
+
+% ============================================================
+% INICIO DEL DOCUMENTO
+% ============================================================
+\begin{document}
+
+\maketitle
+
+% --- Abstract y palabras clave ---
+\input{sections/abstract}
+
+% --- Secciones principales (desarrolladas) ---
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/theoretical_framework}
+
+% --- Secciones en desarrollo (conceptuales) ---
+\input{sections/architecture}
+\input{sections/methodology}
+
+% --- Evaluación propuesta y cierre ---
+\input{sections/experiments}
+\input{sections/conclusion}
+
+% ============================================================
+% REFERENCIAS BIBLIOGRÁFICAS
+% ============================================================
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

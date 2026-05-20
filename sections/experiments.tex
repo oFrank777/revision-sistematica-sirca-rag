@@ -1,0 +1,40 @@
+% ============================================================
+% experiments.tex — Sección VI: Plan de Evaluación Experimental
+% Estado: Propuesto (sin resultados — investigación en curso)
+% ============================================================
+
+\section{Plan de Evaluación Experimental}
+\label{sec:experiments}
+
+Esta sección define el marco de evaluación experimental propuesto para fases posteriores de la investigación. La evaluación se estructurará en tres dimensiones complementarias.
+
+\subsection{Métricas de recuperación semántica}
+\label{subsec:exp_retrieval_metrics}
+
+La calidad de recuperación se evaluará mediante:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Recall@K:} Proporción de documentos relevantes en los top-$K$ resultados respecto al total de documentos relevantes en el corpus.
+  \item \textbf{Precision@K:} Proporción de documentos relevantes entre los top-$K$ recuperados.
+  \item \textbf{Mean Reciprocal Rank (MRR):} Inversa de la posición del primer documento relevante, promediada sobre todas las consultas.
+\end{itemize}
+
+\subsection{Métricas de fidelidad generativa}
+\label{subsec:exp_generation_metrics}
+
+La fidelidad de las respuestas generadas se evaluará mediante BERTScore~\cite{zhang2020bertscore}, ROUGE-L y similitud semántica coseno entre respuestas generadas y respuestas de referencia elaboradas por especialistas en farmacognosia.
+
+\subsection{Métricas de grounding y alucinación}
+\label{subsec:exp_grounding_metrics}
+
+La fundamentación documental se medirá mediante la tasa de grounding $\fground$ (Ecuación~\ref{eq:grounding}) y la tasa de alucinación, definida como la proporción de afirmaciones factuales no verificables mediante las fuentes recuperadas.
+
+\subsection{Baselines planificados}
+\label{subsec:exp_baselines}
+
+Se propone la comparación frente a cuatro baselines: (B1)~BM25 puro sin generación; (B2)~RAG genérico con embeddings no especializados; (B3)~RAG con embeddings biomédicos sin retrieval híbrido; y (B4)~generación directa mediante \llm{} sin recuperación documental.
+
+\subsection{Consideraciones sobre el corpus}
+\label{subsec:exp_corpus}
+
+El corpus experimental se construirá mediante el sistema de adquisición automatizada (C4), centrado en publicaciones sobre las especies medicinales peruanas seleccionadas. Se prevé un volumen inicial de entre 2\,000 y 5\,000 documentos provenientes de PubMed, CrossRef, Semantic Scholar y Europe PMC. Los juicios de relevancia serán elaborados por evaluadores con formación en farmacognosia y botánica.

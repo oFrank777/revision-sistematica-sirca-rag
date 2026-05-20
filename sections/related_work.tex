@@ -1,0 +1,44 @@
+% ============================================================
+% related_work.tex — Sección II: Trabajos Relacionados
+% Estado: Desarrollado completamente
+% ============================================================
+
+\section{Trabajos Relacionados}
+\label{sec:related_work}
+
+Esta sección analiza las líneas de investigación relacionadas con la propuesta, organizadas en cuatro ejes temáticos fundamentales.
+
+\subsection{Retrieval-Augmented Generation (RAG)}
+\label{subsec:rw_rag}
+
+El paradigma \rag{} fue formalizado por Lewis et al.~\cite{lewis2020retrieval}, quienes propusieron la combinación de un retriever con un generator para tareas de NLP intensivas en conocimiento, demostrando mejoras en factualidad y relevancia frente a modelos puramente paramétricos. Guu et al.~\cite{guu2020realm} introdujeron REALM, integrando la recuperación directamente en el pre-entrenamiento del modelo de lenguaje. Borgeaud et al.~\cite{borgeaud2022improving} escalaron la idea mediante RETRO, demostrando que modelos con acceso a bases de conocimiento externas de trillones de tokens alcanzan rendimiento competitivo con modelos significativamente más grandes.
+
+Izacard y Grave~\cite{izacard2021leveraging} propusieron Fusion-in-Decoder, concatenando múltiples pasajes recuperados en el decoder. Asai et al.~\cite{asai2024selfrag} introdujeron Self-RAG, un framework que enseña al modelo a recuperar, generar y criticar sus propias respuestas mediante tokens de reflexión. Khattab y Zaharia~\cite{khattab2020colbert} desarrollaron ColBERT, un modelo de interacción tardía para búsquedas eficientes mediante representaciones contextualizadas. Gao et al.~\cite{gao2024retrieval} proporcionaron un survey comprehensivo del paradigma \rag{}, categorizando las aproximaciones según sus componentes de recuperación, aumentación y generación.
+
+A pesar de estos avances, la aplicación de \rag{} en dominios biomédicos especializados permanece subexplorada. La mayoría de los sistemas operan sobre corpora genéricos y no incorporan mecanismos de adquisición continua ni memoria persistente.
+
+\subsection{NLP biomédico y recuperación semántica}
+\label{subsec:rw_bionlp}
+
+Lee et al.~\cite{lee2020biobert} desarrollaron \biobert{}, un modelo basado en BERT pre-entrenado con artículos de PubMed y PMC, demostrando mejoras sustanciales en tareas de extracción biomédica y question answering. Gu et al.~\cite{gu2021domain} propusieron PubMedBERT, argumentando que el pre-entrenamiento desde cero con vocabulario especializado supera al pre-entrenamiento continuo. Neumann et al.~\cite{neumann2019scispacy} presentaron \scispacy{}, una extensión de spaCy optimizada para texto biomédico con modelos para NER y vinculación a ontologías como UMLS.
+
+Luo et al.~\cite{luo2022biogpt} introdujeron BioGPT, un modelo generativo pre-entrenado para el dominio biomédico. Jin et al.~\cite{jin2019pubmedqa} crearon PubMedQA, un benchmark de referencia para question answering biomédico. Xiong et al.~\cite{xiong2021approximate} propusieron ANCE para mejorar la calidad de recuperación densa en dominios especializados. Nentidis et al.~\cite{nentidis2023overview} reportaron los avances del desafío BioASQ, evidenciando los retos persistentes en QA biomédico.
+
+\subsection{Bases de datos vectoriales y memoria persistente}
+\label{subsec:rw_vectordb}
+
+Johnson et al.~\cite{johnson2021billion} desarrollaron \faiss{}, estableciendo los fundamentos algorítmicos (IVF, PQ, HNSW) para la búsqueda eficiente de vecinos más cercanos a escala. Reimers y Gurevych~\cite{reimers2019sentence} introdujeron Sentence-BERT, ampliamente adoptado para la representación vectorial de documentos. Sistemas como \chromadb{}, Milvus y Weaviate han democratizado el acceso a bases de datos vectoriales con persistencia nativa.
+
+Park et al.~\cite{park2023generative} exploraron la integración de memoria a largo plazo en agentes generativos, donde las representaciones vectoriales de interacciones pasadas se almacenan para mantener coherencia contextual entre sesiones, una capacidad fundamental para la arquitectura propuesta en este trabajo.
+
+\subsection{Sistemas para etnobotánica y farmacognosia}
+\label{subsec:rw_ethnobotany}
+
+Bussmann y Sharon~\cite{bussmann2006traditional} documentaron la flora medicinal del norte de Perú, proporcionando una base de datos de referencia. Heinrich et al.~\cite{heinrich2020ethnopharmacology} revisaron las aproximaciones computacionales a la etnofarmacología, identificando oportunidades para la aplicación de técnicas de IA. Gonzales~\cite{gonzales2012ethnobiology} proporcionó una revisión comprehensiva de la evidencia sobre \textit{Lepidium meyenii}. Chandak et al.~\cite{chandak2023building} exploraron grafos de conocimiento biomédico para la representación de relaciones entre compuestos y actividades biológicas.
+
+\subsection{Posicionamiento de la propuesta}
+\label{subsec:rw_positioning}
+
+La Tabla~\ref{tab:related_work_comparison} resume el posicionamiento de \sirca{} frente a los sistemas revisados. Ningún sistema existente integra simultáneamente las cinco capacidades propuestas: pipeline \rag{} biomédico, memoria vectorial persistente, retrieval híbrido, adquisición continua y grounding documental, específicamente orientado al dominio etnobotánico.
+
+\input{tables/related_work_table}

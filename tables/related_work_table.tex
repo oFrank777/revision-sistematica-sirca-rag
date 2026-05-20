@@ -1,0 +1,28 @@
+% ============================================================
+% related_work_table.tex — Tabla comparativa de trabajos relacionados
+% ============================================================
+
+\begin{table*}[!t]
+\centering
+\caption{Análisis comparativo de sistemas relacionados frente a las capacidades de \sirca{}.}
+\label{tab:related_work_comparison}
+\renewcommand{\arraystretch}{1.2}
+\footnotesize
+\begin{tabularx}{\textwidth}{l c c c c c c}
+\toprule
+\textbf{Sistema / Enfoque} & \textbf{RAG} & \textbf{Memoria} & \textbf{Retrieval} & \textbf{Adquisición} & \textbf{Grounding} & \textbf{Dominio} \\
+ & \textbf{Biomédico} & \textbf{Persistente} & \textbf{Híbrido} & \textbf{Continua} & \textbf{Documental} & \textbf{Específico} \\
+\midrule
+RAG~\cite{lewis2020retrieval}                   & --          & --          & --          & --          & Parcial     & General \\
+REALM~\cite{guu2020realm}                       & --          & --          & Denso       & --          & --          & General \\
+Self-RAG~\cite{asai2024selfrag}                 & --          & --          & Denso       & --          & \checkmark  & General \\
+ColBERT~\cite{khattab2020colbert}               & --          & --          & Denso       & --          & --          & General \\
+BioBERT~\cite{lee2020biobert}                   & --          & --          & --          & --          & --          & Biomédico \\
+BioGPT~\cite{luo2022biogpt}                     & --          & --          & --          & --          & --          & Biomédico \\
+PubMedQA~\cite{jin2019pubmedqa}                 & --          & --          & --          & --          & Parcial     & Biomédico \\
+S2ORC~\cite{lo2020s2orc}                        & --          & --          & --          & \checkmark  & --          & General \\
+\midrule
+\textbf{\sirca{} (propuesto)} & \checkmark  & \checkmark  & \checkmark  & \checkmark  & \checkmark  & \textbf{Etnobotánico} \\
+\bottomrule
+\end{tabularx}
+\end{table*}

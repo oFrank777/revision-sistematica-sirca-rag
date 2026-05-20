@@ -1,0 +1,212 @@
+% ============================================================
+% theoretical_framework.tex — Sección III: Marco Teórico
+% Estado: COMPLETAMENTE DESARROLLADO (foco principal del paper)
+% ============================================================
+
+\section{Marco Teórico}
+\label{sec:theoretical_framework}
+
+Esta sección establece los fundamentos teóricos que sustentan la arquitectura propuesta, abarcando el paradigma de Retrieval-Augmented Generation, la representación vectorial semántica y modelos de embedding biomédicos, las bases de datos vectoriales y algoritmos de búsqueda aproximada, el procesamiento de lenguaje natural biomédico, las estrategias de retrieval híbrido y reranking contextual, los mecanismos de grounding documental, la memoria vectorial persistente y los sistemas multiagente para descubrimiento científico.
+
+\subsection{Retrieval-Augmented Generation}
+\label{subsec:tf_rag}
+
+El paradigma de Retrieval-Augmented Generation constituye una extensión del framework generativo convencional mediante la incorporación de evidencia documental externa en el proceso de generación~\cite{lewis2020retrieval}. Formalmente, dado un modelo generativo $G_\theta$ parametrizado por $\theta$ y un componente de recuperación $R_\phi$ parametrizado por $\phi$, el sistema \rag{} genera una respuesta $y$ para una consulta $q$ como:
+
+\begin{equation}
+\label{eq:rag_general}
+  P(y \mid q) = \sum_{d \in \topk(R_\phi(q, \corpus))} P_G(y \mid q, d) \cdot P_R(d \mid q)
+\end{equation}
+
+\noindent donde $\topk(R_\phi(q, \corpus))$ denota los $K$ documentos más relevantes recuperados del corpus $\corpus$ para la consulta $q$, $P_R(d \mid q)$ es la probabilidad de relevancia del documento $d$ y $P_G(y \mid q, d)$ es la probabilidad de generar $y$ condicionada en $q$ y $d$.
+
+Lewis et al.~\cite{lewis2020retrieval} propusieron dos variantes. En RAG-Sequence, un único documento condiciona la generación de toda la secuencia de salida:
+
+\begin{equation}
+\label{eq:rag_sequence}
+  P_{\text{RAG-Seq}}(y \mid q) = \sum_{d \in \topk} P_R(d \mid q) \prod_{i=1}^{n} P_G(y_i \mid q, d, y_{1:i-1})
+\end{equation}
+
+En RAG-Token, diferentes documentos pueden condicionar la generación de diferentes tokens, proporcionando mayor flexibilidad:
+
+\begin{equation}
+\label{eq:rag_token}
+  P_{\text{RAG-Tok}}(y \mid q) = \prod_{i=1}^{n} \sum_{d \in \topk} P_R(d \mid q) \cdot P_G(y_i \mid q, d, y_{1:i-1})
+\end{equation}
+
+La ventaja fundamental de \rag{} sobre modelos puramente paramétricos reside en la separación entre el conocimiento almacenado en los parámetros del modelo y el conocimiento accesible mediante recuperación, permitiendo la actualización del conocimiento sin re-entrenamiento. Gao et al.~\cite{gao2024retrieval} categorizaron las arquitecturas \rag{} contemporáneas en tres paradigmas: \textit{Naive RAG}, que implementa la cadena indexación-recuperación-generación; \textit{Advanced RAG}, que incorpora optimizaciones pre y post-retrieval; y \textit{Modular RAG}, que descompone el pipeline en módulos reconfigurables. La arquitectura propuesta en este trabajo se alinea con el paradigma Modular RAG, extendido con capacidades de adquisición continua y memoria persistente.
+
+\subsubsection{RAG en dominios especializados}
+
+La aplicación de \rag{} en dominios especializados introduce desafíos adicionales que los sistemas genéricos no abordan~\cite{siriwardhana2023improving}. En el dominio biomédico, la terminología especializada, las relaciones semánticas complejas entre entidades (compuestos, especies, actividades biológicas) y la necesidad de trazabilidad bibliográfica imponen requisitos específicos sobre los componentes de recuperación y generación. Los modelos de embedding genéricos frecuentemente fallan en capturar relaciones disciplinares, como la asociación entre ``alcaloide oxindólico'' y ``oxindole alkaloid'', o entre nombres taxonómicos y nombres comunes de especies medicinales.
+
+\subsection{Embeddings semánticos y representación vectorial}
+\label{subsec:tf_embeddings}
+
+Los embeddings semánticos proporcionan representaciones numéricas de alta dimensionalidad que capturan relaciones semánticas entre textos~\cite{reimers2019sentence}. Formalmente, una función de embedding $\embed: \mathcal{T} \rightarrow \mathbb{R}^d$ proyecta un texto $t \in \mathcal{T}$ a un vector en un espacio $d$-dimensional, donde la proximidad geométrica refleja similitud semántica.
+
+La similitud entre dos textos $t_1$ y $t_2$ se cuantifica mediante la similitud coseno:
+
+\begin{equation}
+\label{eq:cosine_similarity}
+  \simcos(\emb{t_1}, \emb{t_2}) = \frac{\emb{t_1} \cdot \emb{t_2}}{\|\emb{t_1}\| \cdot \|\emb{t_2}\|}
+\end{equation}
+
+\noindent donde $\emb{t_i} = \embed(t_i) \in \mathbb{R}^d$ denota la representación vectorial del texto $t_i$.
+
+\subsubsection{Sentence Transformers y redes siamesas}
+
+El framework Sentence-BERT~\cite{reimers2019sentence} extiende los modelos BERT mediante redes siamesas para producir embeddings de oraciones semánticamente ricos. La arquitectura emplea una estructura siamesa donde dos instancias del mismo modelo procesan pares de oraciones, y una función de pooling genera las representaciones finales:
+
+\begin{equation}
+\label{eq:sbert}
+  \emb{s} = \text{MeanPool}(\text{BERT}(s)) \in \mathbb{R}^d
+\end{equation}
+
+El entrenamiento se realiza optimizando la pérdida de tripleta:
+
+\begin{equation}
+\label{eq:triplet_loss}
+  \mathcal{L} = \max\left(0, \|\emb{a} - \emb{p}\| - \|\emb{a} - \emb{n}\| + \epsilon\right)
+\end{equation}
+
+\noindent donde $\emb{a}$, $\emb{p}$ y $\emb{n}$ representan los embeddings del anchor, positivo y negativo, y $\epsilon$ es el margen de separación. Esta formulación asegura que textos semánticamente similares se proyecten a regiones próximas del espacio vectorial.
+
+\subsubsection{Embeddings biomédicos especializados}
+
+En el dominio biomédico, los modelos de embedding genéricos presentan limitaciones para capturar relaciones terminológicas específicas. \biobert{}~\cite{lee2020biobert}, pre-entrenado con 4.5 mil millones de palabras de PubMed y 13.5 mil millones de PMC, produce representaciones que capturan relaciones disciplinares con mayor fidelidad. PubMedBERT~\cite{gu2021domain}, pre-entrenado desde cero con vocabulario exclusivamente biomédico, demostró que la construcción de vocabulario in-domain supera consistentemente al pre-entrenamiento continuo en benchmarks como BLURB (\textit{Biomedical Language Understanding and Reasoning Benchmark}).
+
+Para el dominio de plantas medicinales peruanas, la selección del modelo de embedding es crítica. Términos como \textit{Uncaria tomentosa}, ``mitrafilina'', ``actividad inmunomoduladora'' y ``alcaloide pentacíclico'' requieren representaciones que capturen correctamente su proximidad semántica a pesar de la variabilidad léxica y multilingüe inherente a la literatura etnobotánica.
+
+\subsection{Bases de datos vectoriales y búsqueda aproximada}
+\label{subsec:tf_vectordb}
+
+La búsqueda eficiente de documentos semánticamente relevantes requiere algoritmos de \textit{Approximate Nearest Neighbor} (ANN) que ofrezcan un balance entre precisión y eficiencia computacional. \faiss{}~\cite{johnson2021billion} implementa múltiples estrategias:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Inverted File Index (IVF):} Particiona el espacio vectorial en $n_{\text{list}}$ celdas de Voronoi, restringiendo la búsqueda a las $n_{\text{probe}}$ celdas más cercanas al vector de consulta. La complejidad se reduce de $O(N \cdot d)$ a $O(n_{\text{probe}} \cdot N/n_{\text{list}} \cdot d)$.
+
+  \item \textbf{Product Quantization (PQ):} Comprime vectores de alta dimensionalidad mediante cuantización del espacio en subespacios, reduciendo requisitos de memoria y acelerando el cálculo de distancias.
+
+  \item \textbf{Hierarchical Navigable Small World (HNSW):} Construye un grafo multicapa navegable que permite búsqueda eficiente con complejidad logarítmica $O(\log N)$, ofreciendo alta recall con latencia predecible.
+\end{itemize}
+
+Sistemas como \chromadb{}, Milvus y Weaviate extienden estas capacidades con persistencia nativa, filtrado por metadatos y APIs simplificadas, democratizando la construcción de sistemas de memoria vectorial. Para un corpus biomédico de escala moderada ($N < 10^6$ documentos), los índices IVF-Flat o HNSW proporcionan un balance adecuado entre precisión y rendimiento con recursos computacionales accesibles.
+
+\subsection{NLP biomédico}
+\label{subsec:tf_bionlp}
+
+El procesamiento de lenguaje natural biomédico abarca técnicas especializadas para el análisis computacional de textos científicos en ciencias de la salud~\cite{lee2020biobert}. Los componentes fundamentales para la arquitectura propuesta incluyen:
+
+\subsubsection{Reconocimiento de entidades biomédicas (BioNER)}
+
+La identificación automática de entidades biomédicas en texto no estructurado constituye una tarea fundamental. \scispacy{}~\cite{neumann2019scispacy} proporciona pipelines de NER pre-entrenados con capacidad de vinculación a ontologías como UMLS (\textit{Unified Medical Language System}), MeSH (\textit{Medical Subject Headings}) y ChEBI (\textit{Chemical Entities of Biological Interest}).
+
+En el contexto de plantas medicinales peruanas, el BioNER debe identificar cuatro categorías de entidades: (a)~nombres taxonómicos (\textit{Uncaria tomentosa}, \textit{Lepidium meyenii}); (b)~compuestos químicos (mitrafilina, isomitrafilina, macamidas, taspina); (c)~actividades biológicas (actividad citotóxica, antiinflamatoria, antioxidante); y (d)~nombres vernáculos (uña de gato, maca, sangre de grado).
+
+\subsubsection{Extracción de relaciones biomédicas}
+
+La extracción de relaciones entre entidades permite construir representaciones estructuradas del conocimiento. Las relaciones relevantes incluyen:
+\begin{itemize}[leftmargin=*]
+  \item \texttt{PLANTA -- contiene -- COMPUESTO}
+  \item \texttt{COMPUESTO -- exhibe -- ACTIVIDAD\_BIOLÓGICA}
+  \item \texttt{PLANTA -- se\_usa\_para -- CONDICIÓN\_MÉDICA}
+  \item \texttt{ESTUDIO -- reporta -- EFECTO\_FARMACOLÓGICO}
+\end{itemize}
+
+Estas relaciones, extraídas automáticamente mediante modelos de relación biomédica, enriquecen los metadatos del corpus y permiten filtrado semántico durante la recuperación.
+
+\subsubsection{Segmentación semántica de documentos}
+
+La segmentación de documentos en chunks semánticos constituye una etapa crítica del pipeline \rag{}. Dado un documento $d$ de longitud $L$ tokens, la segmentación produce una secuencia $\{c_1, c_2, \ldots, c_n\}$ donde:
+
+\begin{equation}
+\label{eq:chunking}
+  c_i = d[i \cdot (w - o) : i \cdot (w - o) + w], \quad |c_i| = w, \quad o < w
+\end{equation}
+
+\noindent con tamaño de ventana $w$ y solapamiento $o$. La preservación de fronteras de oración y párrafo durante la segmentación es fundamental para mantener la coherencia semántica de cada fragmento, particularmente en textos biomédicos donde la ruptura de una descripción farmacológica puede alterar su significado.
+
+\subsection{Retrieval híbrido}
+\label{subsec:tf_hybrid_retrieval}
+
+El retrieval híbrido combina métodos de recuperación dispersa (\textit{sparse}) y densa (\textit{dense}) para aprovechar las fortalezas complementarias de ambos paradigmas~\cite{karpukhin2020dense}. Formalmente, la puntuación híbrida de un documento $d$ para una consulta $q$ se define como:
+
+\begin{equation}
+\label{eq:hybrid_retrieval}
+  \score_{\text{híb}}(q, d) = \alpha \cdot \score_{\text{denso}}(q, d) + (1 - \alpha) \cdot \score_{\text{disperso}}(q, d)
+\end{equation}
+
+\noindent donde $\alpha \in [0, 1]$ controla la ponderación relativa. El componente disperso se calcula típicamente mediante BM25:
+
+\begin{equation}
+\label{eq:bm25}
+  \text{BM25}(q, d) = \sum_{t \in q} \text{IDF}(t) \cdot \frac{f(t, d) \cdot (k_1 + 1)}{f(t, d) + k_1 \cdot \left(1 - b + b \cdot \frac{|d|}{d_{\text{avg}}}\right)}
+\end{equation}
+
+\noindent donde $f(t, d)$ es la frecuencia del término $t$ en $d$, $|d|$ es la longitud del documento, $d_{\text{avg}}$ es la longitud promedio en el corpus, y $k_1$, $b$ son hiperparámetros de regularización.
+
+La combinación híbrida es particularmente beneficiosa en dominios biomédicos, donde las consultas contienen tanto términos técnicos específicos —mejor capturados por métodos dispersos— como conceptos semánticos complejos —mejor capturados por métodos densos. Por ejemplo, una consulta sobre ``alcaloides oxindólicos de \textit{Uncaria tomentosa} con actividad antiinflamatoria'' combina términos químicos específicos con relaciones farmacológicas que requieren comprensión semántica.
+
+\subsection{Reranking contextual}
+\label{subsec:tf_reranking}
+
+El reranking contextual constituye una etapa de refinamiento posterior a la recuperación inicial~\cite{nogueira2019passage}. Mientras los modelos bi-encoder utilizados en la recuperación inicial generan representaciones independientes para la consulta y el documento, los cross-encoders procesan simultáneamente ambos textos:
+
+\begin{equation}
+\label{eq:reranking}
+  \score_{\text{rerank}}(q, d) = \sigma\left(\vect{w}^\top \cdot f_{\text{cross}}([q; \text{SEP}; d]) + b\right)
+\end{equation}
+
+\noindent donde $f_{\text{cross}}$ denota la representación producida por un modelo cross-encoder que procesa la concatenación de la consulta y el documento, $\sigma$ es la función sigmoide, y $\vect{w}$, $b$ son parámetros aprendidos. Esta arquitectura captura interacciones semánticas profundas entre la consulta y cada documento a costa de mayor complejidad computacional, por lo cual se aplica exclusivamente sobre los $K$ candidatos recuperados en la etapa anterior, seleccionando los $K' < K$ más relevantes.
+
+\subsection{Grounding documental}
+\label{subsec:tf_grounding}
+
+El grounding documental es el proceso mediante el cual las respuestas generadas se fundamentan explícitamente en evidencia documental recuperada, reduciendo el riesgo de alucinaciones~\cite{ji2023survey}. Formalmente, una respuesta $r$ se considera \textit{grounded} respecto a un conjunto de documentos $\documents_k = \{d_1, \ldots, d_k\}$ si:
+
+\begin{equation}
+\label{eq:grounding}
+  \fground(r, \documents_k) = \frac{|\{s_i \in r : \exists\, d_j \in \documents_k, \text{soporta}(d_j, s_i)\}|}{|\{s_i \in r\}|}
+\end{equation}
+
+\noindent donde $s_i$ denota las afirmaciones factuales en $r$ y $\text{soporta}(d_j, s_i)$ indica que $s_i$ puede ser verificada mediante $d_j$. Un valor alto de $\fground$ indica que la respuesta está bien fundamentada en la evidencia recuperada.
+
+En dominios biomédicos, el grounding es particularmente crítico. Una afirmación sobre la actividad antiinflamatoria de un compuesto vegetal debe estar respaldada por estudios específicos, no por generalización del modelo. La implementación del grounding involucra: (i)~inclusión explícita de fragmentos documentales en el prompt; (ii)~instrucciones que requieren citación de fuentes; y (iii)~verificación posterior de consistencia.
+
+\subsection{Memoria vectorial persistente}
+\label{subsec:tf_memory}
+
+La memoria vectorial persistente extiende las bases de datos vectoriales con capacidades de acumulación temporal y gestión de contexto entre sesiones. Formalmente, la memoria $\memory$ se define como:
+
+\begin{equation}
+\label{eq:memory}
+  \memory = \{(\emb{d_i}, m_i, \tau_i) : d_i \in \corpus\}
+\end{equation}
+
+\noindent donde $\emb{d_i} \in \mathbb{R}^d$ es la representación vectorial, $m_i$ denota los metadatos (fuente, fecha, autores, tipo de documento) y $\tau_i$ es la marca temporal de incorporación.
+
+Las operaciones fundamentales sobre $\memory$ incluyen:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Inserción:} $\memory \leftarrow \memory \cup \{(\embed(d), m, \tau_{\text{now}})\}$
+  \item \textbf{Consulta semántica:} $\retrieve(\query, \memory, K) = \topk_{(\emb{d}, m, \tau) \in \memory} \simcos(\query, \emb{d})$
+  \item \textbf{Consulta filtrada:} $\retrieve(\query, \memory, K, \mathcal{F}) = \topk_{(\emb{d}, m, \tau) \in \memory, \mathcal{F}(m)} \simcos(\query, \emb{d})$
+  \item \textbf{Actualización incremental:} $\memory_{t+1} = \memory_t \cup \embed(\Delta\corpus_t)$
+\end{itemize}
+
+\noindent donde $\mathcal{F}$ es un predicado de filtrado sobre metadatos y $\Delta\corpus_t$ denota los documentos adquiridos en el período $t$. Esta capacidad de actualización incremental es fundamental para la adquisición científica continua propuesta en \sirca{}.
+
+\subsection{Sistemas multiagente para descubrimiento científico}
+\label{subsec:tf_multiagent}
+
+Los sistemas multiagente proporcionan un paradigma organizacional donde agentes especializados colaboran para resolver tareas complejas~\cite{wooldridge2009introduction}. En el contexto de descubrimiento científico biomédico, la arquitectura multiagente permite la descomposición funcional del proceso en roles especializados:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Agente de adquisición:} Identificación, descarga y preprocesamiento de nueva literatura biomédica desde APIs científicas (PubMed, CrossRef, Semantic Scholar).
+  \item \textbf{Agente de indexación:} Generación de embeddings, segmentación semántica y actualización de la memoria vectorial.
+  \item \textbf{Agente de retrieval:} Ejecución de estrategias de recuperación híbrida y reranking contextual.
+  \item \textbf{Agente de generación:} Producción de respuestas contextualizadas con grounding documental y citaciones.
+  \item \textbf{Agente de verificación:} Validación de consistencia factual y fundamentación bibliográfica.
+\end{itemize}
+
+La coordinación entre agentes se propone mediante un orquestador central que selecciona dinámicamente las estrategias de procesamiento en función del tipo de consulta, el estado de la memoria vectorial y la disponibilidad de evidencia documental. Esta descomposición modular facilita la extensibilidad del sistema y permite la adición de nuevas capacidades sin reestructuración de los componentes existentes.

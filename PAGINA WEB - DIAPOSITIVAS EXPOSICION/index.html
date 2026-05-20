@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIRCA-RAG — Presentación Académica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="dot-nav"></div>
+<nav class="nav-bar">
+  <button class="nav-btn" id="nav-prev"><i class="fa-solid fa-chevron-left"></i></button>
+  <div class="nav-progress"><div class="nav-progress-fill"></div></div>
+  <span class="nav-counter">1 / 14</span>
+  <button class="nav-btn" id="nav-next"><i class="fa-solid fa-chevron-right"></i></button>
+</nav>
+
+<div class="presentation">
+
+<!-- ===================== SLIDE 1: PORTADA ===================== -->
+<section class="slide active">
+  <div class="orb orb-cyan" style="width:500px;height:500px;top:-150px;left:-100px"></div>
+  <div class="orb orb-purple" style="width:400px;height:400px;bottom:-100px;right:-50px"></div>
+  <div class="slide-inner title-slide">
+    <div class="section-label">IEEE Conference Paper · 2026</div>
+    <h1 class="grad-text">SIRCA-RAG</h1>
+    <p class="subtitle">Un sistema inteligente que ayuda a los investigadores a descubrir información científica sobre plantas medicinales peruanas, usando inteligencia artificial para buscar, entender y generar conocimiento confiable.</p>
+    <p class="authors">Ower Frank Lopez Arela · Daniel Enrique Marron Carcausto</p>
+    <p class="institution">Universidad Nacional de San Agustín de Arequipa — UNSA</p>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 2: EL PROBLEMA (FUSIONADA) ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">¿Por qué este proyecto?</div>
+    <h2 class="slide-title">El problema que queremos resolver</h2>
+    <p class="slide-subtitle mb-32">Perú tiene miles de plantas medicinales, pero la información científica sobre ellas está dispersa, incompleta y es difícil de encontrar. Queremos cambiar eso.</p>
+    <div class="two-col">
+      <div>
+        <div class="grid-2" style="gap:16px;margin-bottom:24px">
+          <div class="stat" style="background:var(--bg-glass-light);border-radius:14px;border:1px solid var(--border-subtle);padding:20px">
+            <div class="stat-number grad-text" style="font-size:42px">25K+</div>
+            <div class="stat-label">Especies vegetales en Perú</div>
+          </div>
+          <div class="stat" style="background:var(--bg-glass-light);border-radius:14px;border:1px solid var(--border-subtle);padding:20px">
+            <div class="stat-number grad-text" style="font-size:42px">80%</div>
+            <div class="stat-label">Sin sistematizar</div>
+          </div>
+        </div>
+        <p style="font-size:15px">Esto significa que la mayoría de la información sobre plantas como la <strong>Uña de Gato</strong> o la <strong>Maca</strong> está repartida en miles de artículos científicos, repositorios y bases de datos que no se comunican entre sí.</p>
+      </div>
+      <div>
+        <div class="card">
+          <h3 style="font-size:18px;margin-bottom:16px">¿Cuáles son las barreras?</h3>
+          <ul class="clean-list">
+            <li><strong>Datos dispersos</strong> — la información está fragmentada en PubMed, repositorios y literatura gris</li>
+            <li><strong>Búsqueda ineficiente</strong> — los buscadores actuales no entienden el contexto biomédico</li>
+            <li><strong>IA que inventa</strong> — los modelos de lenguaje pueden fabricar datos falsos, algo peligroso en medicina</li>
+            <li><strong>Sin memoria</strong> — cada búsqueda parte de cero, sin recordar investigaciones previas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 3: ¿QUÉ ES SIRCA-RAG? ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Nuestra propuesta</div>
+    <h2 class="slide-title">¿Qué es SIRCA-RAG?</h2>
+    <p class="slide-subtitle mb-24">Es un sistema que <strong>busca artículos científicos reales</strong>, los <strong>entiende usando IA especializada</strong> y <strong>genera respuestas verificables</strong>. No inventa: solo responde con lo que puede probar.</p>
+    <div class="grid-5 mt-24">
+      <div class="card" style="text-align:center;padding:24px 16px">
+        <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
+        <h3 style="font-size:14px">C1: Pipeline RAG</h3>
+        <p style="font-size:12px">Lee documentos científicos y los convierte en datos que la IA puede entender</p>
+      </div>
+      <div class="card" style="text-align:center;padding:24px 16px">
+        <div class="card-icon"><i class="fa-solid fa-database"></i></div>
+        <h3 style="font-size:14px">C2: Memoria</h3>
+        <p style="font-size:12px">Guarda todo lo aprendido para no perder información entre sesiones</p>
+      </div>
+      <div class="card" style="text-align:center;padding:24px 16px">
+        <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
+        <h3 style="font-size:14px">C3: Agente</h3>
+        <p style="font-size:12px">Decide automáticamente la mejor estrategia para responder cada pregunta</p>
+      </div>
+      <div class="card" style="text-align:center;padding:24px 16px">
+        <div class="card-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+        <h3 style="font-size:14px">C4: Adquisición</h3>
+        <p style="font-size:12px">Descarga nuevos artículos automáticamente para mantenerse actualizado</p>
+      </div>
+      <div class="card" style="text-align:center;padding:24px 16px">
+        <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+        <h3 style="font-size:14px">C5: Generación</h3>
+        <p style="font-size:12px">Escribe respuestas claras citando siempre la fuente original</p>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--text-muted);margin-top:20px;text-align:center"><em>En palabras simples: es como tener un asistente de investigación que lee miles de papers por ti, recuerda todo, y nunca inventa datos.</em></p>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 4: PIPELINE RAG ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">¿Cómo funciona?</div>
+    <h2 class="slide-title">El camino que recorre cada documento</h2>
+    <p class="slide-subtitle mb-24">Cuando un artículo científico entra al sistema, pasa por 7 pasos hasta convertirse en conocimiento que podemos consultar. Es como una cadena de montaje inteligente.</p>
+    <div class="pipeline">
+      <div class="pipe-step"><div class="step-icon">📥</div><h4>Ingesta</h4><p>Descarga PDFs y XMLs</p></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-icon">✂️</div><h4>División</h4><p>Corta en fragmentos pequeños</p></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-icon">🧬</div><h4>Análisis</h4><p>Identifica plantas y compuestos</p></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-icon">📐</div><h4>Vectorización</h4><p>Convierte texto en números</p></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-icon">🗄️</div><h4>Almacenamiento</h4><p>Guarda en base vectorial</p></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-icon">🔎</div><h4>Búsqueda</h4><p>Encuentra lo más relevante</p></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-icon">✅</div><h4>Respuesta</h4><p>Genera texto con citas</p></div>
+    </div>
+    <p style="font-size:14px;color:var(--text-muted);margin-top:24px;text-align:center"><em>Este proceso ocurre automáticamente. El investigador solo hace una pregunta y el sistema hace todo el trabajo.</em></p>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 5: RETRIEVAL HÍBRIDO + GROUNDING ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">La ciencia detrás del sistema</div>
+    <h2 class="slide-title">Búsqueda inteligente + respuestas verificables</h2>
+    <p class="slide-subtitle mb-24">Combinamos dos técnicas de búsqueda para no perder información, y obligamos a la IA a citar sus fuentes para evitar que invente datos.</p>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:18px;margin-bottom:16px" class="text-cyan">Búsqueda híbrida</h3>
+        <p class="mb-16" style="font-size:15px">Usamos dos tipos de búsqueda al mismo tiempo: una que busca <strong>palabras exactas</strong> (como nombres de plantas) y otra que entiende el <strong>significado</strong> de la pregunta.</p>
+        <div class="formula-box">S<sub>híbrido</sub> = α · S<sub>semántico</sub> + (1 − α) · S<sub>palabras</sub></div>
+        <p style="font-size:14px;color:var(--text-muted)">Esto nos permite encontrar artículos que un buscador normal perdería. Por ejemplo, si buscas "uña de gato", también encuentra artículos que dicen "Uncaria tomentosa" o "cat's claw".</p>
+      </div>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:16px" class="text-purple">Anti-alucinación (Grounding)</h3>
+        <p class="mb-16" style="font-size:15px">Obligamos a la IA a <strong>anclar cada afirmación</strong> en un documento real. Si no puede probar algo, se niega a responder.</p>
+        <div class="formula-box">f<sub>ground</sub> = afirmaciones_verificadas / afirmaciones_totales</div>
+        <div class="card" style="padding:20px;margin-top:16px">
+          <h4 style="font-size:14px;margin-bottom:10px">Triple verificación:</h4>
+          <ul class="clean-list">
+            <li><strong>Contexto</strong> — la IA recibe los documentos originales</li>
+            <li><strong>Citación</strong> — debe indicar de dónde sacó cada dato</li>
+            <li><strong>Validación</strong> — el sistema verifica que no inventó nada</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 6: STACK + HERRAMIENTAS (FUSIONADA) ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Tecnología</div>
+    <h2 class="slide-title">Las herramientas que estamos usando</h2>
+    <p class="slide-subtitle mb-24">Todo nuestro sistema está construido con tecnología <strong>open-source</strong> (gratuita y de código abierto), accesible para cualquier universidad latinoamericana.</p>
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="card" style="padding:24px">
+        <h3 style="font-size:16px;margin-bottom:12px"><i class="fa-solid fa-brain text-cyan" style="margin-right:8px"></i>Modelos de IA</h3>
+        <p style="font-size:14px;margin-bottom:12px">Usamos modelos especializados en lenguaje biomédico para que la máquina entienda terminología médica.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <a href="https://huggingface.co/dmis-lab/biobert-v1.1" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> BioBERT</a>
+          <a href="https://huggingface.co/microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> PubMedBERT</a>
+          <a href="https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> Llama 3</a>
+          <a href="https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> Mistral 7B</a>
+        </div>
+      </div>
+      <div class="card" style="padding:24px">
+        <h3 style="font-size:16px;margin-bottom:12px"><i class="fa-solid fa-database text-purple" style="margin-right:8px"></i>Almacenamiento vectorial</h3>
+        <p style="font-size:14px;margin-bottom:12px">La información se guarda como vectores numéricos que permiten búsquedas por significado, no solo por palabras.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <a href="https://github.com/facebookresearch/faiss" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> FAISS</a>
+          <a href="https://docs.trychroma.com/" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> ChromaDB</a>
+        </div>
+      </div>
+      <div class="card" style="padding:24px">
+        <h3 style="font-size:16px;margin-bottom:12px"><i class="fa-solid fa-code text-cyan" style="margin-right:8px"></i>Frameworks</h3>
+        <p style="font-size:14px;margin-bottom:12px">Frameworks que conectan todas las piezas: desde la descarga de artículos hasta la generación de respuestas.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <a href="https://python.langchain.com/" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> LangChain</a>
+          <a href="https://docs.llamaindex.ai/" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> LlamaIndex</a>
+          <a href="https://allenai.github.io/scispacy/" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> SciSpaCy</a>
+          <a href="https://fastapi.tiangolo.com/" target="_blank" class="ext-link" style="margin:0"><i class="fa-solid fa-arrow-up-right-from-square"></i> FastAPI</a>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--text-muted);text-align:center"><em>Todas estas herramientas son gratuitas. No necesitamos licencias costosas ni servidores en la nube.</em></p>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 7: FUENTES DE DATOS ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">¿De dónde sacamos la información?</div>
+    <h2 class="slide-title">Fuentes científicas que ya analizamos</h2>
+    <p class="slide-subtitle mb-24">Nuestro sistema se conecta a las bases de datos más grandes del mundo en investigación biomédica. Ya analizamos cada una y sabemos cómo extraer la información.</p>
+    <div class="eco-grid">
+      <div class="source-card">
+        <span class="cat-badge cat-api">API</span>
+        <div class="sc-header"><span class="sc-icon">🏥</span><h4>PubMed</h4></div>
+        <p>La biblioteca médica más grande del mundo, con más de 36 millones de artículos. Es nuestra fuente principal.</p>
+        <a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Documentación</a>
+      </div>
+      <div class="source-card">
+        <span class="cat-badge cat-api">API</span>
+        <div class="sc-header"><span class="sc-icon">📊</span><h4>Semantic Scholar</h4></div>
+        <p>Buscador académico de Allen AI que entiende las relaciones entre artículos y nos ayuda a encontrar papers conectados.</p>
+        <a href="https://api.semanticscholar.org/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> API</a>
+      </div>
+      <div class="source-card">
+        <span class="cat-badge cat-api">API</span>
+        <div class="sc-header"><span class="sc-icon">🔗</span><h4>CrossRef</h4></div>
+        <p>Servicio que nos permite verificar y enriquecer las referencias bibliográficas de cada artículo que procesamos.</p>
+        <a href="https://api.crossref.org/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> API</a>
+      </div>
+      <div class="source-card">
+        <span class="cat-badge cat-api">API</span>
+        <div class="sc-header"><span class="sc-icon">🌐</span><h4>OpenAlex</h4></div>
+        <p>Catálogo abierto con 250 millones de trabajos académicos. Complementa nuestras fuentes con datos de acceso libre.</p>
+        <a href="https://docs.openalex.org/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> API</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 8: DASHBOARD DE INVESTIGACIÓN (FUSIONADA) ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Lo que ya investigamos</div>
+    <h2 class="slide-title">Nuestra base técnica ya está construida</h2>
+    <p class="slide-subtitle mb-24">No partimos de cero. Ya hemos investigado, analizado y seleccionado cada componente del sistema. Esto es lo que tenemos listo:</p>
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="stat" style="background:var(--bg-glass-light);border-radius:14px;border:1px solid var(--border-subtle);padding:20px">
+        <div class="stat-number" style="font-size:40px"><span class="grad-text">5</span></div>
+        <div class="stat-label">APIs científicas</div>
+      </div>
+      <div class="stat" style="background:var(--bg-glass-light);border-radius:14px;border:1px solid var(--border-subtle);padding:20px">
+        <div class="stat-number" style="font-size:40px"><span class="grad-text">7</span></div>
+        <div class="stat-label">Modelos IA evaluados</div>
+      </div>
+      <div class="stat" style="background:var(--bg-glass-light);border-radius:14px;border:1px solid var(--border-subtle);padding:20px">
+        <div class="stat-number" style="font-size:40px"><span class="grad-text">8</span></div>
+        <div class="stat-label">Herramientas definidas</div>
+      </div>
+      <div class="stat" style="background:var(--bg-glass-light);border-radius:14px;border:1px solid var(--border-subtle);padding:20px">
+        <div class="stat-number" style="font-size:40px"><span class="grad-text">34+</span></div>
+        <div class="stat-label">Papers analizados</div>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="card" style="padding:20px">
+        <h3 style="font-size:14px;margin-bottom:10px"><i class="fa-solid fa-check-circle text-cyan" style="margin-right:6px"></i>Fuentes de datos</h3>
+        <p style="font-size:13px">PubMed, CrossRef, Semantic Scholar, Europe PMC y OpenAlex — ya sabemos cómo conectarnos a cada una.</p>
+      </div>
+      <div class="card" style="padding:20px">
+        <h3 style="font-size:14px;margin-bottom:10px"><i class="fa-solid fa-check-circle text-cyan" style="margin-right:6px"></i>Stack completo</h3>
+        <p style="font-size:13px">Cada herramienta ya tiene un rol definido en la arquitectura: FAISS para búsqueda, LangChain para orquestación, BioBERT para entender textos médicos.</p>
+      </div>
+      <div class="card" style="padding:20px">
+        <h3 style="font-size:14px;margin-bottom:10px"><i class="fa-solid fa-check-circle text-cyan" style="margin-right:6px"></i>Marco teórico sólido</h3>
+        <p style="font-size:13px">34 referencias IEEE reales, fórmulas matemáticas verificadas, y un estado del arte comprehensivo ya documentado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 9: METODOLOGÍA DSR ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Metodología</div>
+    <h2 class="slide-title">¿Cómo estamos avanzando?</h2>
+    <p class="slide-subtitle mb-24">Seguimos la metodología <strong>Design Science Research (DSR)</strong>, que se usa internacionalmente para proyectos de ingeniería de software que proponen soluciones nuevas.</p>
+    <div class="two-col mt-16">
+      <div class="timeline">
+        <div class="tl-item active">
+          <h4><span class="badge badge-green" style="margin-right:8px">Completada</span> Fase 1: Investigación</h4>
+          <p>Ya hicimos el marco teórico, analizamos el estado del arte y diseñamos la arquitectura completa del sistema.</p>
+        </div>
+        <div class="tl-item">
+          <h4>Fase 2: Construcción del corpus</h4>
+          <p>Vamos a descargar automáticamente miles de artículos científicos desde las APIs que ya analizamos para crear nuestra base de datos.</p>
+        </div>
+        <div class="tl-item">
+          <h4>Fase 3: Desarrollo del prototipo</h4>
+          <p>Conectaremos todos los módulos (C1 a C5) para que funcionen como un sistema completo e integrado.</p>
+        </div>
+        <div class="tl-item">
+          <h4>Fase 4: Evaluación</h4>
+          <p>Mediremos qué tan bien funciona el sistema comparándolo con métodos tradicionales y consultando a expertos en botánica.</p>
+        </div>
+      </div>
+      <div class="card" style="text-align:center;padding:40px">
+        <div style="font-size:14px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Progreso actual</div>
+        <div style="font-size:72px;font-family:var(--font-display);font-weight:800" class="grad-text">25%</div>
+        <p class="mt-24" style="font-size:14px">Fase teórica completada.<br>Listos para construir el prototipo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 10: MÉTRICAS ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">¿Cómo sabremos si funciona?</div>
+    <h2 class="slide-title">Plan de evaluación</h2>
+    <p class="slide-subtitle mb-32">Ya definimos exactamente cómo vamos a medir si SIRCA-RAG realmente mejora la investigación biomédica. No nos conformamos con que "funcione": tiene que ser medible.</p>
+    <table class="data-table">
+      <thead><tr><th>¿Qué medimos?</th><th>¿Con qué herramientas?</th><th>¿Qué queremos lograr?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Calidad de búsqueda</strong><br><span style="font-size:12px;color:var(--text-muted)">¿Encuentra los artículos correctos?</span></td><td>Recall@K, Precision@K, MRR</td><td>Superar significativamente a un buscador por palabras clave</td></tr>
+        <tr><td><strong>Calidad de respuestas</strong><br><span style="font-size:12px;color:var(--text-muted)">¿Las respuestas son precisas?</span></td><td>BERTScore, ROUGE-L</td><td>Generar respuestas más fieles que un RAG genérico</td></tr>
+        <tr><td><strong>Control de alucinaciones</strong><br><span style="font-size:12px;color:var(--text-muted)">¿Inventa datos falsos?</span></td><td>Tasa de Grounding</td><td>Que cada afirmación tenga una cita verificable</td></tr>
+        <tr><td><strong>Validación por expertos</strong><br><span style="font-size:12px;color:var(--text-muted)">¿Los investigadores lo aprueban?</span></td><td>Evaluación humana</td><td>Que los botánicos confirmen que las respuestas son útiles</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 11: ROADMAP ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Hoja de ruta</div>
+    <h2 class="slide-title">Los próximos pasos del proyecto</h2>
+    <p class="slide-subtitle mb-32">Tenemos una ruta clara desde la fase actual de investigación hasta un prototipo funcional y su validación.</p>
+    <div class="grid-4">
+      <div class="card" style="padding:24px">
+        <span class="badge badge-green mb-16">Q3 2026</span>
+        <h3 style="font-size:16px">Prototipo local</h3>
+        <p style="font-size:14px">Desplegar la primera versión funcional de SIRCA-RAG para procesar artículos sobre las 5 plantas prioritarias.</p>
+      </div>
+      <div class="card" style="padding:24px">
+        <span class="badge badge-cyan mb-16">Q4 2026</span>
+        <h3 style="font-size:16px">Grafos de conocimiento</h3>
+        <p style="font-size:14px">Agregar un mapa visual de relaciones entre plantas, compuestos químicos y efectos medicinales.</p>
+      </div>
+      <div class="card" style="padding:24px">
+        <span class="badge badge-purple mb-16">Q1 2027</span>
+        <h3 style="font-size:16px">Aprendizaje del usuario</h3>
+        <p style="font-size:14px">Que el sistema aprenda de las correcciones que los investigadores le hagan, mejorando con cada uso.</p>
+      </div>
+      <div class="card" style="padding:24px">
+        <span class="badge badge-amber mb-16">Q2 2027</span>
+        <h3 style="font-size:16px">Acceso abierto</h3>
+        <p style="font-size:14px">Publicar SIRCA-RAG como herramienta open-source para que otras universidades de Latinoamérica puedan usarla.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 12: LOGROS + PRÓXIMOS PASOS ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Estado actual</div>
+    <h2 class="slide-title">Lo que ya logramos y lo que viene</h2>
+    <div class="grid-2 mt-32">
+      <div class="card mb-24" style="padding:28px">
+        <h3 class="text-cyan" style="font-size:18px;margin-bottom:16px">✅ Ya completamos</h3>
+        <ul class="clean-list">
+          <li>Marco teórico con <strong>34+ referencias IEEE</strong> reales y verificadas</li>
+          <li>Formalización matemática completa del pipeline RAG</li>
+          <li>Diseño arquitectónico detallado de los 5 componentes</li>
+          <li>Análisis comprehensivo de herramientas, modelos y APIs</li>
+          <li>Definición del plan de evaluación experimental</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:28px">
+        <h3 class="text-purple" style="font-size:18px;margin-bottom:16px">🔜 Próximos pasos</h3>
+        <ul class="clean-list">
+          <li>Construir el corpus descargando artículos desde PubMed y Semantic Scholar</li>
+          <li>Implementar el prototipo funcional conectando C1 a C5</li>
+          <li>Ejecutar evaluación cuantitativa con los benchmarks PubMedQA y BioASQ</li>
+          <li>Validar resultados con expertos en farmacognosia de la UNSA</li>
+          <li>Publicar resultados experimentales en conferencia IEEE</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 13: IMPACTO ===================== -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">¿Por qué importa?</div>
+    <h2 class="slide-title">El impacto que buscamos generar</h2>
+    <p class="slide-subtitle mb-32">SIRCA-RAG no es solo un proyecto académico. Queremos que tenga un impacto real en cómo Latinoamérica investiga su propia biodiversidad.</p>
+    <div class="grid-3">
+      <div class="card" style="text-align:center;padding:32px">
+        <div style="font-size:48px;margin-bottom:16px">🌎</div>
+        <h3>Preservar conocimiento</h3>
+        <p style="font-size:14px">Sistematizar el conocimiento sobre plantas medicinales peruanas antes de que se pierda, conectándolo con la investigación global.</p>
+      </div>
+      <div class="card" style="text-align:center;padding:32px">
+        <div style="font-size:48px;margin-bottom:16px">🎓</div>
+        <h3>Democratizar la IA</h3>
+        <p style="font-size:14px">Crear herramientas open-source que cualquier universidad latinoamericana pueda usar, sin necesitar grandes presupuestos.</p>
+      </div>
+      <div class="card" style="text-align:center;padding:32px">
+        <div style="font-size:48px;margin-bottom:16px">💊</div>
+        <h3>Acelerar descubrimientos</h3>
+        <p style="font-size:14px">Ayudar a los investigadores a encontrar compuestos bioactivos con potencial farmacéutico de forma más rápida y confiable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLIDE 14: CIERRE ===================== -->
+<section class="slide">
+  <div class="orb orb-cyan" style="width:600px;height:600px;top:-200px;right:-200px"></div>
+  <div class="orb orb-purple" style="width:500px;height:500px;bottom:-150px;left:-150px"></div>
+  <div class="slide-inner final-slide">
+    <h2 class="grad-text">Gracias</h2>
+    <p style="max-width:600px;margin:0 auto 32px">Estamos construyendo un puente inteligente entre la biodiversidad peruana y la investigación global. Estamos a su disposición para cualquier pregunta.</p>
+    <div class="contact">
+      <p style="margin-bottom:8px"><strong>Ower Frank Lopez Arela</strong> · olopeza@unsa.edu.pe</p>
+      <p style="margin-bottom:16px"><strong>Daniel Enrique Marron Carcausto</strong> · dmarron@unsa.edu.pe</p>
+      <p><i class="fa-solid fa-building-columns text-cyan"></i> Universidad Nacional de San Agustín de Arequipa — UNSA, Perú</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVA: Papers científicos con enlaces -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Estado del Arte (2022-2026)</div>
+    <h2 class="slide-title">Investigaciones similares y fundamentos</h2>
+    <p class="slide-subtitle mb-24">SIRCA-RAG se alinea con las investigaciones más recientes a nivel global en IA aplicada a la etnobotánica.</p>
+    <div class="two-col mt-16">
+      <div class="scroll-col" style="display:flex;flex-direction:column;gap:10px">
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Riddhi M. et al., 2024</h5><p>RAG-Based System for Indian Medicinal Plant...</p></div><a href="https://scholar.google.com/scholar?q=%22Rag-Based+System+for+Indian+Medicinal+Plant+Knowledge+Integration%22" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Wang et al., 2024</h5><p>TCM-RAG: Trad. Medicine Knowledge Graph</p></div><a href="https://arxiv.org/abs/2404.09110" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Campillo et al., 2024</h5><p>BioRAG: Biomedical Knowledge Discovery</p></div><a href="https://arxiv.org/abs/2404.05581" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Xiong et al., 2024</h5><p>MedRAG: Medical Decision Support</p></div><a href="https://arxiv.org/abs/2402.13178" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+      </div>
+      <div class="scroll-col" style="display:flex;flex-direction:column;gap:10px">
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Lewis et al., 2020</h5><p>RAG: Retrieval-Augmented Generation (Original)</p></div><a href="https://arxiv.org/abs/2005.11401" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Lee et al., 2020</h5><p>BioBERT: Pre-training for Biomedicine</p></div><a href="https://arxiv.org/abs/1901.08746" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Asai et al., 2024</h5><p>Self-RAG: Learning to Retrieve and Critique</p></div><a href="https://arxiv.org/abs/2310.11511" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        <div class="res-row"><span class="res-icon">📄</span><div class="res-info"><h5>Khattab et al., 2020</h5><p>ColBERT: Efficient Contextual Computing</p></div><a href="https://arxiv.org/abs/2004.12832" target="_blank" class="res-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVA: Datasets y benchmarks -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="section-label">Material de respaldo</div>
+    <h2 class="slide-title">Datasets y benchmarks identificados</h2>
+    <div class="grid-2 mt-24" style="gap:20px">
+      <div class="source-card"><span class="cat-badge cat-dataset">Dataset</span><div class="sc-header"><span class="sc-icon">🧬</span><h4>PubMedQA</h4></div><p>Preguntas basadas en abstracts de PubMed para evaluar QA biomédico.</p><a href="https://pubmedqa.github.io/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Sitio oficial</a></div>
+      <div class="source-card"><span class="cat-badge cat-dataset">Dataset</span><div class="sc-header"><span class="sc-icon">🏆</span><h4>BioASQ</h4></div><p>Challenge internacional de QA biomédico. Gold standard para evaluación.</p><a href="http://bioasq.org/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Sitio oficial</a></div>
+      <div class="source-card"><span class="cat-badge cat-dataset">Benchmark</span><div class="sc-header"><span class="sc-icon">📊</span><h4>BLURB</h4></div><p>Benchmark de Microsoft con 13 datasets y 6 tareas NLP biomédicas.</p><a href="https://microsoft.github.io/BLURB/" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Microsoft</a></div>
+      <div class="source-card"><span class="cat-badge cat-dataset">Corpus</span><div class="sc-header"><span class="sc-icon">📚</span><h4>S2ORC</h4></div><p>81M+ papers con full-text de Semantic Scholar. Corpus masivo open-access.</p><a href="https://github.com/allenai/s2orc" target="_blank" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> GitHub</a></div>
+    </div>
+  </div>
+</section>
+</div>
+<script src="engine.js"></script>
+</body>
+</html>

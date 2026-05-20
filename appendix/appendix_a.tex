@@ -1,0 +1,87 @@
+% ============================================================
+% appendix_a.tex — Apéndice A
+% ============================================================
+
+\section{Detalles complementarios de configuración}
+\label{sec:appendix_a}
+
+\subsection{Ejemplo de prompt de generación con grounding}
+\label{subsec:app_prompt}
+
+El siguiente ejemplo ilustra la estructura del prompt utilizado por \sirca{} para la generación contextualizada con grounding documental:
+
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily, caption={Estructura del prompt de generación con grounding.}, label={lst:prompt}]
+[SISTEMA]
+Eres un asistente de investigacion biomedica
+especializado en plantas medicinales peruanas.
+Responde UNICAMENTE basandote en los documentos
+proporcionados. Cita cada afirmacion con el
+identificador del documento fuente [Doc_ID].
+Si no hay informacion suficiente, indicalo
+explicitamente.
+
+[CONTEXTO DOCUMENTAL]
+[Doc_1] Titulo: Alkaloids from Uncaria tomentosa
+Fuente: Journal of Natural Products, 2023
+Contenido: "Los alcaloides oxindolicos
+pentaciclicos identificados incluyen
+mitrafilina, isomitrafilina, pteropodina..."
+
+[Doc_2] Titulo: Anti-inflammatory activity of
+cat's claw extracts
+Fuente: Phytomedicine, 2022
+Contenido: "El extracto estandarizado de
+U. tomentosa demostro inhibicion significativa
+de NF-kB en modelos in vitro..."
+
+[Doc_3] ...
+
+[CONSULTA DEL USUARIO]
+Cuales son los principales alcaloides de
+Uncaria tomentosa y que actividad
+antiinflamatoria se les atribuye?
+
+[INSTRUCCIONES]
+- Fundamenta cada afirmacion citando [Doc_ID]
+- No inventes informacion no presente en los
+  documentos
+- Indica gaps de conocimiento si existen
+- Usa terminologia cientifica apropiada
+\end{lstlisting}
+
+\subsection{Configuración de conectores de APIs científicas}
+\label{subsec:app_apis}
+
+La Tabla~\ref{tab:api_config} presenta la configuración de los conectores utilizados para la adquisición científica automatizada.
+
+\begin{table}[!t]
+\centering
+\caption{Configuración de conectores de APIs científicas.}
+\label{tab:api_config}
+\renewcommand{\arraystretch}{1.2}
+\footnotesize
+\begin{tabular}{l l l}
+\toprule
+\textbf{API} & \textbf{Endpoint} & \textbf{Rate Limit} \\
+\midrule
+PubMed E-utilities  & eutils.ncbi.nlm.nih.gov & 3 req/s \\
+CrossRef REST       & api.crossref.org         & 50 req/s \\
+Semantic Scholar    & api.semanticscholar.org  & 100 req/5min \\
+Europe PMC          & europepmc.org/restfulapi & 10 req/s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Taxonomía de entidades biomédicas reconocidas}
+\label{subsec:app_entities}
+
+El módulo de BioNER de \sirca{} reconoce las siguientes categorías de entidades:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{SPECIES:} Nombres taxonómicos de plantas medicinales (e.g., \textit{Uncaria tomentosa}, \textit{Lepidium meyenii}).
+  \item \textbf{CHEMICAL:} Compuestos químicos y metabolitos secundarios (e.g., mitrafilina, macamidas, taspina).
+  \item \textbf{ACTIVITY:} Actividades biológicas y farmacológicas (e.g., antiinflamatorio, antioxidante, citotóxico).
+  \item \textbf{DISEASE:} Condiciones médicas y patologías (e.g., artritis, cáncer, diabetes).
+  \item \textbf{STUDY\_TYPE:} Tipo de estudio (e.g., \textit{in vitro}, \textit{in vivo}, ensayo clínico).
+  \item \textbf{TISSUE:} Tejidos y órganos biológicos mencionados en estudios farmacológicos.
+\end{itemize}

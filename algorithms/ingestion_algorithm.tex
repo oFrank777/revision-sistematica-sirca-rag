@@ -1,0 +1,55 @@
+% ============================================================
+% ingestion_algorithm.tex — Algoritmo de adquisición científica
+% ============================================================
+
+\begin{algorithm}[!t]
+\SetAlgoLined
+\KwIn{Fuentes científicas $\sources$, Consultas de búsqueda $Q_s$, Memoria vectorial $\memory$, Período $\Delta t$}
+\KwOut{Memoria vectorial actualizada $\memory'$}
+
+\BlankLine
+\textbf{// Paso 1: Consulta a fuentes científicas}\\
+$\documents_{\text{nuevos}} \leftarrow \emptyset$\;
+\ForEach{$s \in \sources$}{
+  \ForEach{$q_s \in Q_s$}{
+    $\documents_s \leftarrow \text{ConsultarAPI}(s, q_s, \Delta t)$\;
+    $\documents_{\text{nuevos}} \leftarrow \documents_{\text{nuevos}} \cup \documents_s$\;
+  }
+}
+
+\BlankLine
+\textbf{// Paso 2: Deduplicación}\\
+\ForEach{$d \in \documents_{\text{nuevos}}$}{
+  \If{$\text{DOI}(d) \in \text{DOIs}(\memory)$}{
+    $\documents_{\text{nuevos}} \leftarrow \documents_{\text{nuevos}} \setminus \{d\}$\;
+    \textbf{continuar}\;
+  }
+  $d_{\text{más\_similar}} \leftarrow \argmax_{d' \in \memory} \simcos(\embed(d), \embed(d'))$\;
+  \If{$\simcos(\embed(d), \embed(d_{\text{más\_similar}})) > \tau_{\text{dup}}$}{
+    $\documents_{\text{nuevos}} \leftarrow \documents_{\text{nuevos}} \setminus \{d\}$\;
+  }
+}
+
+\BlankLine
+\textbf{// Paso 3: Procesamiento e indexación}\\
+\ForEach{$d \in \documents_{\text{nuevos}}$}{
+  $\text{texto} \leftarrow \text{ExtraerTexto}(d)$\;
+  $\{c_1, \ldots, c_n\} \leftarrow \text{Segmentar}(\text{texto}, w, o)$\;
+  $\text{entidades} \leftarrow \text{BioNER}(\text{texto})$\;
+  \ForEach{$c_i \in \{c_1, \ldots, c_n\}$}{
+    $\emb{c_i} \leftarrow \embed_{\text{bio}}(c_i)$\;
+    $m_i \leftarrow \text{Metadatos}(d, \text{entidades})$\;
+    $\memory \leftarrow \memory \cup \{(\emb{c_i}, m_i, \tau_{\text{now}})\}$\;
+  }
+}
+
+\BlankLine
+\textbf{// Paso 4: Actualización de índices}\\
+$\text{ReconstruirÍndice}(\memory)$\;
+$\text{RegistrarLog}(|\documents_{\text{nuevos}}|, \tau_{\text{now}})$\;
+
+\Return{$\memory$}\;
+
+\caption{Adquisición científica automatizada de \sirca{}}
+\label{alg:ingestion}
+\end{algorithm}

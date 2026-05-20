@@ -1,0 +1,77 @@
+% ============================================================
+% custom_commands.tex
+% Comandos personalizados para el proyecto SIRCA-RAG
+% Facilita la consistencia terminológica y tipográfica
+% ============================================================
+
+% --- Nombre del sistema ---
+\newcommand{\sirca}{\textsc{SIRCA-RAG}}
+\newcommand{\sircafull}{Arquitectura Semi-Autónoma de Recuperación y Generación Contextual de Conocimiento Biomédico}
+
+% --- Acrónimos frecuentes ---
+\newcommand{\rag}{\textsc{RAG}}
+\newcommand{\nlp}{\textsc{NLP}}
+\newcommand{\llm}{\textsc{LLM}}
+\newcommand{\llms}{\textsc{LLMs}}
+\newcommand{\faiss}{\textsc{FAISS}}
+\newcommand{\bert}{\textsc{BERT}}
+\newcommand{\biobert}{\textsc{BioBERT}}
+\newcommand{\scispacy}{\textsc{SciSpaCy}}
+\newcommand{\mrr}{\textsc{MRR}}
+
+% --- Operadores matemáticos ---
+\DeclareMathOperator{\simcos}{sim_{cos}}
+\DeclareMathOperator{\argmax}{arg\,max}
+\DeclareMathOperator{\argmin}{arg\,min}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\topk}{top\text{-}k}
+\DeclareMathOperator{\embed}{Embed}
+\DeclareMathOperator{\retrieve}{Retrieve}
+\DeclareMathOperator{\rerank}{Rerank}
+\DeclareMathOperator{\generate}{Generate}
+\DeclareMathOperator{\ground}{Ground}
+\DeclareMathOperator{\score}{score}
+
+% --- Notación vectorial ---
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\query}{\vect{q}}
+\newcommand{\doc}{\vect{d}}
+\newcommand{\emb}[1]{\vect{e}_{#1}}
+
+% --- Conjuntos y colecciones ---
+\newcommand{\corpus}{\mathcal{C}}
+\newcommand{\documents}{\mathcal{D}}
+\newcommand{\knowledge}{\mathcal{K}}
+\newcommand{\memory}{\mathcal{M}}
+\newcommand{\sources}{\mathcal{S}}
+
+% --- Funciones de scoring ---
+\newcommand{\fsim}{f_{\text{sim}}}
+\newcommand{\frel}{f_{\text{rel}}}
+\newcommand{\fground}{f_{\text{ground}}}
+\newcommand{\ffaith}{f_{\text{faith}}}
+
+% --- Etiquetas de componentes ---
+\newcommand{\componentone}{\textbf{C1}}
+\newcommand{\componenttwo}{\textbf{C2}}
+\newcommand{\componentthree}{\textbf{C3}}
+\newcommand{\componentfour}{\textbf{C4}}
+\newcommand{\componentfive}{\textbf{C5}}
+
+% --- Formato de métricas ---
+\newcommand{\metric}[1]{\texttt{#1}}
+\newcommand{\recallk}{\metric{Recall@K}}
+\newcommand{\precisionk}{\metric{Precision@K}}
+\newcommand{\bertscore}{\metric{BERTScore}}
+
+% --- Herramientas y tecnologías ---
+\newcommand{\tool}[1]{\texttt{#1}}
+\newcommand{\python}{\tool{Python}}
+\newcommand{\fastapi}{\tool{FastAPI}}
+\newcommand{\langchain}{\tool{LangChain}}
+\newcommand{\llamaindex}{\tool{LlamaIndex}}
+\newcommand{\chromadb}{\tool{ChromaDB}}
+
+% --- Notas internas (ocultas en versión final) ---
+\newcommand{\notainterna}[1]{} % Desactivar para versión final
+% \newcommand{\notainterna}[1]{\textcolor{red}{\textbf{[NOTA:} #1\textbf{]}}}

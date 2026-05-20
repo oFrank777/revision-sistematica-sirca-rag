@@ -1,0 +1,81 @@
+% ============================================================
+% problem_statement.tex — Sección II: Planteamiento del Problema
+% ============================================================
+
+\section{Planteamiento del Problema}
+\label{sec:problem_statement}
+
+La investigación biomédica sobre plantas medicinales en contextos de alta biodiversidad enfrenta desafíos estructurales que limitan significativamente la capacidad de los investigadores para acceder, integrar y utilizar el conocimiento científico disponible de manera eficiente. El presente trabajo identifica cuatro dimensiones problemáticas fundamentales que motivan la propuesta de una infraestructura inteligente especializada.
+
+\subsection{Fragmentación del conocimiento biomédico}
+\label{subsec:fragmentation}
+
+El corpus de conocimiento científico sobre plantas medicinales peruanas se encuentra distribuido en una multiplicidad de fuentes heterogéneas: artículos indexados en bases de datos biomédicas (PubMed, Scopus, Web of Science), publicaciones en repositorios institucionales, documentos técnicos gubernamentales, tesis doctorales, informes de organizaciones internacionales y literatura gris de acceso restringido~\cite{bussmann2015toxicity}. Esta fragmentación presenta características particularmente problemáticas en el dominio etnobotánico:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Heterogeneidad documental:} La literatura abarca desde estudios fitoquímicos altamente técnicos hasta registros etnográficos cualitativos, generando un espacio documental con variabilidad semántica y terminológica significativa.
+
+  \item \textbf{Dispersión geográfica de repositorios:} Los estudios sobre flora medicinal peruana se publican en revistas regionales latinoamericanas, journals internacionales de farmacognosia y conferencias especializadas, sin un punto de acceso centralizado.
+
+  \item \textbf{Multilingüismo parcial:} Una proporción relevante de la literatura etnobotánica regional se publica en español, mientras que los estudios farmacológicos de mayor impacto se encuentran predominantemente en inglés, generando barreras de recuperación cruzada.
+
+  \item \textbf{Actualización discontinua:} La producción científica sobre especies específicas (e.g., \textit{Uncaria tomentosa}, \textit{Lepidium meyenii}) presenta ciclos de publicación irregulares, con períodos de alta actividad seguidos de intervalos de escasa producción.
+\end{itemize}
+
+\subsection{Limitaciones de los sistemas de recuperación convencionales}
+\label{subsec:retrieval_limitations}
+
+Los motores de búsqueda científicos disponibles operan bajo paradigmas de recuperación que presentan limitaciones fundamentales para el descubrimiento de conocimiento biomédico especializado:
+
+\begin{enumerate}[label=(\alph*)]
+  \item \textbf{Recuperación basada en concordancia léxica:} Los sistemas basados en modelos TF-IDF o BM25, aunque efectivos para consultas genéricas, fallan en capturar relaciones semánticas complejas inherentes al dominio biomédico. Una consulta sobre ``actividad antiinflamatoria de alcaloides oxindólicos en \textit{Uncaria tomentosa}'' puede no recuperar documentos que describen estos compuestos utilizando nomenclatura química alternativa o taxonomías farmacológicas diferentes~\cite{wang2018clinical}.
+
+  \item \textbf{Ausencia de contextualización disciplinar:} Los resultados de búsqueda carecen de mecanismos para ponderar la relevancia disciplinar de los documentos recuperados. Un sistema genérico no distingue entre un estudio \textit{in vitro} de citotoxicidad y un registro etnobotánico anecdótico, a pesar de que su valor probatorio difiere sustancialmente.
+
+  \item \textbf{Incapacidad de síntesis cross-documental:} Los sistemas actuales recuperan documentos individuales sin capacidad de sintetizar información complementaria proveniente de múltiples fuentes, una operación cognitiva fundamental en la investigación biomédica exploratoria.
+
+  \item \textbf{Ausencia de memoria persistente:} Cada sesión de búsqueda opera de manera independiente, sin acumulación de contexto entre consultas sucesivas. El investigador debe reconstruir el contexto de búsqueda en cada sesión, lo cual resulta particularmente ineficiente en investigaciones longitudinales~\cite{karpukhin2020dense}.
+\end{enumerate}
+
+\subsection{Alucinaciones en modelos generativos}
+\label{subsec:hallucinations}
+
+La aplicación de \llms{} en dominios biomédicos introduce riesgos específicos derivados del fenómeno de alucinación generativa. Ji et al.~\cite{ji2023survey} clasifican las alucinaciones en dos categorías principales: \textit{intrínsecas}, donde el modelo genera información que contradice la fuente de entrada, y \textit{extrínsecas}, donde el modelo produce afirmaciones que no pueden ser verificadas mediante las fuentes disponibles.
+
+En el contexto de la farmacología de plantas medicinales, las alucinaciones presentan consecuencias potencialmente graves:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Atribución errónea de propiedades:} Un \llm{} puede atribuir actividad farmacológica documentada de una especie a otra especie sin evidencia experimental, generando información científicamente incorrecta.
+
+  \item \textbf{Fabricación de referencias:} Los modelos generativos frecuentemente producen citas bibliográficas plausibles pero inexistentes, comprometiendo la trazabilidad científica de la información generada.
+
+  \item \textbf{Extrapolación no fundamentada:} La generación de conclusiones farmacológicas a partir de evidencia parcial o descontextualizada constituye un riesgo particular en dominios donde la precisión factual es requisito ineludible.
+\end{itemize}
+
+\subsection{Formulación formal del problema}
+\label{subsec:formal_problem}
+
+Formalmente, el problema puede definirse de la siguiente manera. Sea $\corpus = \{d_1, d_2, \ldots, d_N\}$ un corpus de $N$ documentos biomédicos provenientes de fuentes heterogéneas $\sources = \{s_1, s_2, \ldots, s_M\}$, donde cada documento $d_i$ contiene información farmacológica, etnobotánica o fitoquímica sobre especies medicinales peruanas. Sea $q$ una consulta de investigación biomédica formulada por un usuario especializado.
+
+El problema consiste en diseñar un sistema $\Phi$ tal que:
+
+\begin{equation}
+\label{eq:problem_formulation}
+  \Phi(q, \corpus, \memory) \rightarrow (r, \{c_1, c_2, \ldots, c_k\})
+\end{equation}
+
+\noindent donde $r$ denota una respuesta generada contextualizada, $\{c_1, \ldots, c_k\}$ constituye el conjunto de citas documentales que fundamentan $r$, y $\memory$ representa la memoria vectorial persistente del sistema. El sistema $\Phi$ debe satisfacer las siguientes propiedades:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Relevancia semántica:} $\fsim(q, r) \geq \tau_{\text{rel}}$, donde $\fsim$ denota una función de similitud semántica y $\tau_{\text{rel}}$ es un umbral de relevancia mínima.
+
+  \item \textbf{Fidelidad documental:} $\ffaith(r, \{c_1, \ldots, c_k\}) \geq \tau_{\text{faith}}$, asegurando que la respuesta generada sea fiel a las fuentes documentales recuperadas.
+
+  \item \textbf{Trazabilidad bibliográfica:} Cada afirmación factual en $r$ debe estar vinculada a al menos una cita documental verificable $c_i \in \corpus$.
+
+  \item \textbf{Actualización continua:} El corpus $\corpus$ debe actualizarse periódicamente mediante $\corpus_{t+1} = \corpus_t \cup \Delta\corpus_t$, donde $\Delta\corpus_t$ denota los documentos adquiridos en el período $t$.
+
+  \item \textbf{Persistencia contextual:} La memoria $\memory$ debe mantener representaciones vectoriales entre sesiones, permitiendo $\memory_{t+1} = \memory_t \cup \embed(\Delta\corpus_t)$.
+\end{itemize}
+
+\noindent La complejidad del problema radica en la satisfacción simultánea de estas propiedades en un dominio biomédico especializado, con recursos computacionales accesibles y mediante herramientas de código abierto.

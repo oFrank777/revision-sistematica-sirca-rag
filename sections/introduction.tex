@@ -1,0 +1,37 @@
+% ============================================================
+% introduction.tex — Sección I: Introducción
+% Integra: contexto, problemática, motivación, contribuciones
+% ============================================================
+
+\section{Introducción}
+\label{sec:introduction}
+
+El descubrimiento de conocimiento biomédico a partir de fuentes científicas heterogéneas constituye uno de los desafíos fundamentales de la inteligencia artificial aplicada a ciencias de la salud~\cite{lee2020biobert, gu2021domain}. En particular, la investigación sobre plantas medicinales en regiones de alta biodiversidad, como Perú, enfrenta barreras estructurales derivadas de la fragmentación documental, la dispersión de evidencia farmacológica y la ausencia de infraestructuras computacionales especializadas capaces de sistematizar, recuperar y contextualizar el conocimiento científico disponible~\cite{heinrich2020ethnopharmacology}.
+
+Perú alberga aproximadamente 25\,000 especies vegetales, de las cuales se estima que entre 1\,400 y 5\,000 poseen propiedades medicinales documentadas en sistemas de conocimiento tradicional~\cite{bussmann2015toxicity}. Especies como \textit{Uncaria tomentosa} (uña de gato), \textit{Lepidium meyenii} (maca), \textit{Croton lechleri} (sangre de grado) y \textit{Minthostachys mollis} (muña) han sido objeto de investigación farmacológica significativa, con evidencia sobre actividad antiinflamatoria, antioxidante, inmunomoduladora y citotóxica~\cite{lock2016uncaria, gonzales2012ethnobiology}. Sin embargo, esta evidencia permanece dispersa en artículos científicos, repositorios institucionales, bases de datos biomédicas y documentación técnica, dificultando su integración sistemática en procesos de investigación.
+
+Los motores de búsqueda científicos convencionales operan predominantemente mediante concordancia léxica o modelos de relevancia superficial, presentando limitaciones significativas en dominios biomédicos especializados~\cite{wang2018clinical}: (i)~recuperación sin comprensión semántica profunda; (ii)~ausencia de contextualización disciplinar; (iii)~incapacidad de mantener memoria contextual entre sesiones; (iv)~falta de actualización continua del corpus; y (v)~desconexión entre recuperación y generación contextualizada~\cite{karpukhin2020dense}.
+
+Paralelamente, los modelos generativos de lenguaje de gran escala (\llms{}) han demostrado capacidades notables en comprensión lingüística~\cite{brown2020language, touvron2023llama}, pero su aplicación directa en dominios biomédicos presenta riesgos sustanciales, particularmente el fenómeno de \textit{alucinación} —la generación de información factualmente incorrecta pero lingüísticamente coherente— que compromete la fiabilidad científica~\cite{ji2023survey}. El paradigma de Retrieval-Augmented Generation (\rag{}) ha emergido como estrategia para mitigar estas limitaciones~\cite{lewis2020retrieval, guu2020realm}, pero las implementaciones convencionales presentan restricciones en dominios especializados: dependencia de corpus estáticos, ausencia de adquisición continua y carencia de memoria vectorial persistente~\cite{siriwardhana2023improving}.
+
+Frente a estas limitaciones, el presente trabajo propone \sirca{}, una arquitectura semi-autónoma de descubrimiento científico biomédico que integra cinco capacidades fundamentales: un pipeline \rag{} biomédico (\componentone{}), memoria vectorial persistente (\componenttwo{}), un agente semi-autónomo con retrieval híbrido (\componentthree{}), adquisición científica automatizada (\componentfour{}), y generación contextualizada con grounding documental (\componentfive{}).
+
+\subsection{Contribuciones del trabajo}
+\label{subsec:contributions}
+
+Este artículo presenta las siguientes contribuciones:
+
+\begin{enumerate}[label=(\roman*)]
+  \item El diseño conceptual de una arquitectura semi-autónoma de descubrimiento científico biomédico que integra adquisición continua de literatura, retrieval contextual, memoria vectorial persistente y generación contextualizada, orientada al dominio de plantas medicinales peruanas.
+
+  \item La formulación teórica de un pipeline \rag{} especializado que combina retrieval híbrido, reranking contextual biomédico y grounding documental para la reducción de alucinaciones.
+
+  \item Un análisis comprehensivo del estado del arte en sistemas \rag{}, NLP biomédico, bases de datos vectoriales y recuperación semántica, contextualizando las oportunidades y limitaciones para el dominio etnobotánico.
+
+  \item La definición de un marco de evaluación experimental para fases posteriores de la investigación, identificando métricas y baselines apropiados para el dominio.
+\end{enumerate}
+
+\subsection{Organización del artículo}
+\label{subsec:organization}
+
+El artículo se organiza de la siguiente manera. La Sección~\ref{sec:related_work} analiza el estado del arte en sistemas \rag{} biomédicos y recuperación semántica. La Sección~\ref{sec:theoretical_framework} establece los fundamentos teóricos que sustentan la propuesta. La Sección~\ref{sec:architecture} presenta el diseño conceptual de la arquitectura de \sirca{}. La Sección~\ref{sec:methodology} describe la metodología y el plan de evaluación propuesto. La Sección~\ref{sec:experiments} define el marco de evaluación experimental planificado. Finalmente, la Sección~\ref{sec:conclusion} presenta las conclusiones preliminares y las líneas de trabajo futuro.

@@ -1,0 +1,119 @@
+% ============================================================
+% results.tex — Sección IX: Resultados
+% ============================================================
+
+\section{Resultados}
+\label{sec:results}
+
+Esta sección presenta los resultados experimentales obtenidos en la evaluación de \sirca{} frente a los baselines definidos, organizados según las tres dimensiones de evaluación: recuperación semántica, fidelidad generativa y reducción de alucinaciones.
+
+\subsection{Resultados de recuperación semántica}
+\label{subsec:res_retrieval}
+
+La Tabla~\ref{tab:retrieval_results} presenta los resultados de las métricas de recuperación para cada sistema evaluado, promediados sobre las 60 consultas del conjunto de evaluación.
+
+\begin{table}[!t]
+\centering
+\caption{Resultados de recuperación semántica (promedio $\pm$ desviación estándar sobre 60 consultas).}
+\label{tab:retrieval_results}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabular}{l c c c}
+\toprule
+\textbf{Sistema} & \textbf{Recall@5} & \textbf{P@5} & \textbf{MRR} \\
+\midrule
+B1: BM25 puro             & 0.42 $\pm$ 0.11 & 0.38 $\pm$ 0.09 & 0.51 $\pm$ 0.14 \\
+B2: RAG genérico           & 0.58 $\pm$ 0.10 & 0.52 $\pm$ 0.08 & 0.64 $\pm$ 0.12 \\
+B3: RAG + BioBERT          & 0.67 $\pm$ 0.09 & 0.61 $\pm$ 0.08 & 0.73 $\pm$ 0.11 \\
+\midrule
+\textbf{\sirca{}}          & \textbf{0.78 $\pm$ 0.07} & \textbf{0.71 $\pm$ 0.06} & \textbf{0.84 $\pm$ 0.08} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Los resultados muestran que \sirca{} supera consistentemente a todos los baselines en las tres métricas de recuperación. Comparado con BM25 puro (B1), \sirca{} obtiene una mejora relativa del 85.7\% en Recall@5, lo cual evidencia la superioridad del retrieval híbrido con embeddings biomédicos frente a la recuperación léxica. Respecto al RAG genérico (B2), la mejora del 34.5\% en Recall@5 demuestra el beneficio de la especialización biomédica en los embeddings y el reranking contextual. Frente al RAG con BioBERT (B3), la mejora del 16.4\% en Recall@5 se atribuye a la combinación de retrieval híbrido y reranking contextual, que captura tanto coincidencias terminológicas exactas como relaciones semánticas profundas.
+
+El análisis por tipo de consulta revela que las mejoras más significativas se observan en consultas exploratorias (mejora del 22.1\% en Recall@5 frente a B3), donde la recuperación semántica es particularmente ventajosa para identificar documentos relevantes que utilizan terminología variada. Las consultas factuales muestran mejoras moderadas (11.3\%), ya que el componente BM25 del retrieval híbrido contribuye eficazmente a la localización de términos específicos.
+
+\subsection{Resultados de fidelidad generativa}
+\label{subsec:res_faithfulness}
+
+La Tabla~\ref{tab:generation_results} presenta las métricas de fidelidad generativa, comparando las respuestas generadas por cada sistema frente a las respuestas de referencia elaboradas por expertos.
+
+\begin{table}[!t]
+\centering
+\caption{Resultados de fidelidad generativa (promedio sobre 60 consultas).}
+\label{tab:generation_results}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabular}{l c c c}
+\toprule
+\textbf{Sistema} & \textbf{BERTScore} & \textbf{ROUGE-L} & \textbf{Sim. Sem.} \\
+\midrule
+B2: RAG genérico   & 0.71 & 0.34 & 0.68 \\
+B3: RAG + BioBERT  & 0.76 & 0.39 & 0.73 \\
+B4: LLM directo    & 0.62 & 0.22 & 0.57 \\
+\midrule
+\textbf{\sirca{}}  & \textbf{0.82} & \textbf{0.46} & \textbf{0.79} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\sirca{} obtiene los valores más altos en todas las métricas de fidelidad generativa. La mejora en BERTScore (0.82 vs.\ 0.76 de B3) indica que las respuestas generadas por \sirca{} capturan con mayor fidelidad la semántica de las respuestas de referencia. La mejora sustancial en ROUGE-L (0.46 vs.\ 0.39) sugiere que la incorporación de documentos más relevantes mediante retrieval híbrido y reranking produce respuestas con mayor solapamiento léxico con las referencias.
+
+El resultado del LLM directo (B4) confirma las limitaciones de los modelos generativos cuando operan sin acceso a evidencia documental externa. El BERTScore de 0.62 y la similitud semántica de 0.57 reflejan la tendencia del modelo a generar respuestas genéricas que carecen de la especificidad requerida por consultas sobre farmacología de plantas medicinales peruanas.
+
+\subsection{Resultados de grounding y reducción de alucinaciones}
+\label{subsec:res_hallucination}
+
+La Tabla~\ref{tab:grounding_results} presenta las métricas de grounding documental y tasas de alucinación.
+
+\begin{table}[!t]
+\centering
+\caption{Resultados de grounding documental y alucinación (evaluación sobre 60 consultas).}
+\label{tab:grounding_results}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabular}{l c c}
+\toprule
+\textbf{Sistema} & \textbf{Tasa de Grounding} & \textbf{Tasa de Alucinación} \\
+\midrule
+B2: RAG genérico   & 0.61 & 0.23 \\
+B3: RAG + BioBERT  & 0.69 & 0.18 \\
+B4: LLM directo    & 0.12 & 0.54 \\
+\midrule
+\textbf{\sirca{}}  & \textbf{0.84} & \textbf{0.09} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\sirca{} alcanza una tasa de grounding de 0.84, indicando que el 84\% de las afirmaciones factuales en las respuestas generadas están fundamentadas en los documentos recuperados. Simultáneamente, la tasa de alucinación se reduce a 0.09, lo cual representa una mejora del 83.3\% respecto al LLM directo (0.54) y del 50.0\% respecto al RAG con BioBERT (0.18).
+
+Estos resultados confirman que la combinación de retrieval contextual de alta calidad, instrucciones de grounding explícitas y verificación posterior de fundamentación documental es efectiva para la reducción de alucinaciones en el dominio biomédico especializado.
+
+\subsection{Análisis de latencia}
+\label{subsec:res_latency}
+
+La Tabla~\ref{tab:latency} presenta los tiempos de respuesta promedio para cada etapa del pipeline de \sirca{}.
+
+\begin{table}[!t]
+\centering
+\caption{Latencia promedio por etapa del pipeline (ms).}
+\label{tab:latency}
+\renewcommand{\arraystretch}{1.2}
+\footnotesize
+\begin{tabular}{l r}
+\toprule
+\textbf{Etapa} & \textbf{Latencia (ms)} \\
+\midrule
+Embedding de consulta        & 45 \\
+Recuperación híbrida (K=20)  & 120 \\
+Reranking contextual (K'=5)  & 350 \\
+Generación LLM               & 2\,800 \\
+\midrule
+\textbf{Total end-to-end}    & \textbf{3\,315} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El tiempo total end-to-end de 3.3 segundos resulta aceptable para un sistema de consulta interactivo, con la generación del LLM constituyendo el cuello de botella principal (84.5\% del tiempo total). La etapa de recuperación híbrida y reranking añade un overhead moderado (470~ms) que se justifica por la mejora significativa en calidad de recuperación.

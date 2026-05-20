@@ -1,0 +1,46 @@
+% ============================================================
+% motivation.tex — Sección III: Motivación y Justificación
+% ============================================================
+
+\section{Motivación y Justificación}
+\label{sec:motivation}
+
+La motivación del presente trabajo se fundamenta en la convergencia de tres factores: la relevancia estratégica de la biodiversidad peruana como fuente de conocimiento biomédico, la madurez actual de las tecnologías de inteligencia artificial para la recuperación semántica especializada, y la necesidad urgente de infraestructuras computacionales que preserven y sistematicen el conocimiento etnobotánico regional.
+
+\subsection{Relevancia científica de la flora medicinal peruana}
+\label{subsec:relevance_flora}
+
+Perú es reconocido como uno de los diecisiete países megadiversos del planeta, con una riqueza florística que comprende aproximadamente el 10\% de las especies vegetales conocidas a nivel global~\cite{bussmann2015toxicity}. La tradición de uso medicinal de plantas en poblaciones andinas y amazónicas constituye un patrimonio de conocimiento empírico acumulado durante milenios, cuya sistematización científica permanece parcial e insuficiente.
+
+Desde una perspectiva farmacológica, múltiples especies peruanas han demostrado perfiles de actividad biológica de interés terapéutico. \textit{Uncaria tomentosa}, ampliamente estudiada por sus propiedades antiinflamatorias e inmunomoduladoras, contiene alcaloides oxindólicos y pentacíclicos cuya actividad ha sido documentada en estudios \textit{in vitro} e \textit{in vivo}~\cite{lock2016uncaria}. \textit{Lepidium meyenii} ha sido investigada por sus efectos adaptogénicos, neuroprotectores y sobre la fertilidad, con evidencia creciente sobre sus metabolitos secundarios~\cite{gonzales2012ethnobiology}. \textit{Croton lechleri} ha mostrado actividad cicatrizante, antiinflamatoria y antiviral asociada a su contenido de taspina y proantocianidinas.
+
+Sin embargo, la integración de esta evidencia en un marco de conocimiento accesible y consultable mediante herramientas computacionales avanzadas permanece como un desafío abierto. La mayoría de los investigadores deben realizar búsquedas manuales extensivas en múltiples bases de datos, sintetizar información de decenas de publicaciones y verificar manualmente la consistencia de los hallazgos —un proceso que consume tiempo significativo y es propenso a omisiones.
+
+\subsection{Oportunidad tecnológica: IA para descubrimiento biomédico}
+\label{subsec:tech_opportunity}
+
+Los avances recientes en procesamiento de lenguaje natural, modelos de lenguaje de gran escala y sistemas de recuperación semántica han generado una ventana de oportunidad sin precedentes para la construcción de infraestructuras inteligentes de descubrimiento científico~\cite{zhao2023survey}. En particular, tres desarrollos tecnológicos fundamentan la viabilidad de la propuesta:
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Embeddings semánticos biomédicos:} Modelos como \biobert{}~\cite{lee2020biobert}, PubMedBERT~\cite{gu2021domain} y \scispacy{}~\cite{neumann2019scispacy} permiten la representación vectorial de textos biomédicos con comprensión disciplinar, superando las limitaciones de los embeddings genéricos en terminología especializada.
+
+  \item \textbf{Bases de datos vectoriales escalables:} Tecnologías como \faiss{}~\cite{johnson2021billion}, \chromadb{} y Milvus permiten el almacenamiento y la búsqueda eficiente de millones de representaciones vectoriales, habilitando la recuperación semántica a gran escala con latencias aceptables.
+
+  \item \textbf{Frameworks de orquestación RAG:} Herramientas como \langchain{} y \llamaindex{} proporcionan abstracciones de alto nivel para la construcción de pipelines de recuperación aumentada, reduciendo significativamente la complejidad de implementación de sistemas \rag{} especializados.
+\end{enumerate}
+
+La confluencia de estos desarrollos permite, por primera vez, la construcción de sistemas de descubrimiento biomédico especializados con recursos computacionales accesibles para entornos universitarios latinoamericanos, sin dependencia de infraestructura propietaria costosa.
+
+\subsection{Necesidad de preservación del conocimiento etnobotánico}
+\label{subsec:preservation}
+
+El conocimiento etnobotánico tradicional peruano enfrenta riesgos de erosión cultural derivados de la urbanización, la pérdida de transmisión intergeneracional y la insuficiente documentación sistemática~\cite{heinrich2020ethnopharmacology}. La construcción de infraestructuras computacionales capaces de integrar, contextualizar y hacer consultable este conocimiento contribuye a su preservación y difusión, alineándose con marcos internacionales como el Protocolo de Nagoya sobre acceso a recursos genéticos y distribución equitativa de beneficios.
+
+Adicionalmente, la sistematización computacional del conocimiento etnobotánico facilita la identificación de \textit{gaps} de investigación, la priorización de especies para estudios farmacológicos y la detección de sinergias potenciales entre compuestos bioactivos de diferentes especies, contribuyendo a la eficiencia del proceso de investigación biomédica.
+
+\subsection{Justificación de la arquitectura propuesta}
+\label{subsec:architecture_justification}
+
+La arquitectura \sirca{} se justifica por la insuficiencia de las soluciones existentes para abordar simultáneamente los desafíos identificados. Los sistemas de búsqueda bibliográfica convencionales carecen de capacidad generativa contextualizada. Los \llms{} genéricos carecen de especialización biomédica y mecanismos de grounding documental. Los sistemas \rag{} estándar operan con corpora estáticos y sin memoria persistente. Ninguna solución disponible integra adquisición científica continua, retrieval contextual biomédico, memoria vectorial persistente y generación fundamentada en un sistema cohesivo orientado a un dominio etnobotánico específico.
+
+La integración de estas capacidades en una arquitectura semi-autónoma diseñada específicamente para el dominio de plantas medicinales peruanas constituye, por lo tanto, una contribución original y científicamente relevante que responde a una necesidad concreta de la comunidad investigadora regional e internacional.

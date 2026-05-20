@@ -1,0 +1,32 @@
+% ============================================================
+% comparison_table.tex — Tabla comparativa del enfoque propuesto
+% ============================================================
+
+\begin{table*}[!t]
+\centering
+\caption{Comparación del enfoque propuesto de \sirca{} frente a alternativas representativas.}
+\label{tab:comparison}
+\renewcommand{\arraystretch}{1.2}
+\footnotesize
+\begin{tabularx}{\textwidth}{l X X X}
+\toprule
+\textbf{Característica} & \textbf{\sirca{} (propuesto)} & \textbf{RAG genérico} & \textbf{Búsqueda convencional} \\
+\midrule
+Embeddings      & BioBERT / PubMedBERT / Sentence Transformers biomédicos & Embeddings genéricos & N/A (TF-IDF) \\
+\addlinespace
+Almacenamiento vectorial & FAISS + ChromaDB con persistencia & Vectores sin persistencia & N/A \\
+\addlinespace
+Modelo generativo & Modelos open-source (local) & APIs propietarias & N/A \\
+\addlinespace
+NLP biomédico   & SciSpaCy + BioNER + UMLS/MeSH & NLP genérico & N/A \\
+\addlinespace
+Retrieval       & Híbrido (BM25 + denso) + reranking & Solo denso o solo BM25 & BM25 / TF-IDF \\
+\addlinespace
+Adquisición     & Automatizada desde APIs científicas & Manual o estática & Manual \\
+\addlinespace
+Memoria         & Persistente entre sesiones & Sin estado & Sin estado \\
+\addlinespace
+Grounding       & Citación documental + verificación & Opcional o ausente & N/A \\
+\bottomrule
+\end{tabularx}
+\end{table*}

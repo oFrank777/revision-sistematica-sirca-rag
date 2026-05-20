@@ -1,0 +1,43 @@
+% ============================================================
+% architecture.tex — Sección IV: Arquitectura Propuesta
+% Estado: Diseño conceptual (sin implementación)
+% ============================================================
+
+\section{Arquitectura Propuesta de SIRCA-RAG}
+\label{sec:architecture}
+
+Esta sección presenta el diseño conceptual de la arquitectura de \sirca{}, describiendo sus cinco componentes fundamentales y sus interacciones. La Figura~\ref{fig:architecture} ilustra la visión general del sistema propuesto.
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\columnwidth]{sirca_architecture.png}
+  \caption{Arquitectura conceptual de \sirca{}. El sistema integra cinco componentes: pipeline RAG biomédico (C1), memoria vectorial persistente (C2), agente semi-autónomo (C3), adquisición científica automatizada (C4) e interfaz de generación contextualizada (C5).}
+  \label{fig:architecture}
+\end{figure}
+
+\subsection{Componentes del sistema}
+\label{subsec:arch_components}
+
+La arquitectura se articula en cinco componentes fundamentales diseñados para abordar las limitaciones identificadas en la Sección~\ref{sec:introduction}:
+
+\textbf{C1 — Pipeline RAG biomédico:} Constituye el componente central de procesamiento. Su función es transformar documentos biomédicos heterogéneos (PDFs, XML de PubMed, HTML) en representaciones semánticas consultables, articulando el flujo completo de ingesta, segmentación, vectorización, recuperación y generación contextualizada.
+
+\textbf{C2 — Memoria vectorial persistente:} Implementa un sistema de almacenamiento semántico que mantiene representaciones vectoriales, metadatos estructurados y relaciones documentales entre sesiones. Se propone una arquitectura de tres capas: capa vectorial (\faiss{}/\chromadb{}), capa de metadatos (PostgreSQL) y capa de sesión (Redis).
+
+\textbf{C3 — Agente semi-autónomo:} Implementa la lógica de decisión del sistema, clasificando consultas (factuales, exploratorias, comparativas) y seleccionando dinámicamente la estrategia de retrieval, el nivel de reranking y las fuentes a consultar.
+
+\textbf{C4 — Adquisición científica automatizada:} Automatiza la incorporación continua de nueva literatura mediante conexión programática a APIs de PubMed, CrossRef, Semantic Scholar y Europe PMC, con deduplicación semántica e indexación incremental.
+
+\textbf{C5 — Interfaz de generación contextualizada:} Produce respuestas biomédicas fundamentadas en evidencia documental, con citaciones explícitas, instrucciones de grounding y restricciones de dominio.
+
+\subsection{Flujo de datos propuesto}
+\label{subsec:arch_flow}
+
+El flujo de datos principal sigue la secuencia: (1)~el usuario formula una consulta biomédica; (2)~el agente (C3) clasifica la consulta y selecciona la estrategia; (3)~el pipeline (C1) ejecuta retrieval híbrido y reranking sobre la memoria (C2); (4)~los documentos relevantes se incorporan al contexto de generación; (5)~el modelo produce una respuesta con citas; y (6)~paralelamente, el sistema de adquisición (C4) enriquece continuamente la memoria vectorial.
+
+\subsection{Stack tecnológico propuesto}
+\label{subsec:arch_stack}
+
+La implementación se propone íntegramente con herramientas de código abierto: \python{} y \fastapi{} para orquestación; \langchain{} y \llamaindex{} como frameworks RAG; \biobert{}, PubMedBERT y Sentence Transformers para embeddings; \faiss{} y \chromadb{} para almacenamiento vectorial; \scispacy{} para NLP biomédico; y modelos open-source (Llama~3, Mistral~7B, Qwen~2.5) para generación. Esta selección garantiza reproducibilidad y accesibilidad para entornos universitarios latinoamericanos. La Tabla~\ref{tab:comparison} resume la comparativa con aproximaciones alternativas.
+
+\input{tables/comparison_table}

@@ -1,0 +1,21 @@
+% ============================================================
+% methodology.tex — Sección V: Metodología Propuesta
+% Estado: Conceptual (sin implementación detallada)
+% ============================================================
+
+\section{Metodología}
+\label{sec:methodology}
+
+El desarrollo de \sirca{} sigue la metodología \textit{Design Science Research} (DSR)~\cite{hevner2004design}, que proporciona un marco riguroso para la creación y evaluación de artefactos tecnológicos innovadores. La investigación se estructura en las siguientes fases:
+
+\begin{enumerate}[label=\textbf{Fase \arabic*:}]
+  \item \textbf{Fundamentación teórica y análisis de requisitos} (fase actual): Estudio del estado del arte, formulación del problema, definición de los fundamentos teóricos y diseño conceptual de la arquitectura.
+
+  \item \textbf{Construcción del corpus y prototipado:} Adquisición de literatura biomédica sobre plantas medicinales peruanas mediante APIs científicas, procesamiento documental, vectorización e indexación.
+
+  \item \textbf{Implementación del prototipo:} Desarrollo de los cinco componentes de \sirca{} utilizando el stack tecnológico propuesto, con integración de los módulos de retrieval, generación y memoria.
+
+  \item \textbf{Evaluación experimental:} Evaluación cuantitativa mediante las métricas definidas en la Sección~\ref{sec:experiments}, comparación con baselines y análisis de resultados.
+\end{enumerate}
+
+El corpus biomédico se construirá mediante adquisición programática desde PubMed, CrossRef, Semantic Scholar y Europe PMC, utilizando consultas centradas en las especies medicinales peruanas seleccionadas (\textit{Uncaria tomentosa}, \textit{Lepidium meyenii}, \textit{Croton lechleri}, \textit{Minthostachys mollis}, \textit{Erythroxylum coca}) y sus propiedades farmacológicas. Los documentos adquiridos se someterán a un pipeline de preprocesamiento que incluye extracción de texto, segmentación semántica (Ecuación~\ref{eq:chunking}), extracción de entidades biomédicas mediante \scispacy{} y vectorización con embeddings biomédicos.

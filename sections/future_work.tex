@@ -1,0 +1,38 @@
+% ============================================================
+% future_work.tex — Sección XI: Trabajo Futuro
+% ============================================================
+
+\section{Trabajo Futuro}
+\label{sec:future_work}
+
+Los resultados y limitaciones identificados sugieren múltiples direcciones de investigación futura para la evolución de \sirca{}.
+
+\subsection{Expansión del dominio y multilingüismo}
+\label{subsec:fw_domain}
+
+Una extensión natural del trabajo consiste en ampliar el dominio de aplicación a la totalidad de la flora medicinal peruana y, posteriormente, a la flora medicinal latinoamericana. Esta expansión requiere abordar desafíos adicionales de multilingüismo (español, portugués, quechua), escalabilidad del corpus y diversificación de fuentes documentales. La incorporación de modelos de embedding multilingües y técnicas de recuperación cross-lingual constituye una línea de investigación prometedora.
+
+\subsection{Knowledge graphs biomédicos}
+\label{subsec:fw_kg}
+
+La integración de grafos de conocimiento biomédico con la memoria vectorial persistente permitiría representar relaciones estructuradas entre entidades (plantas, compuestos, actividades biológicas, mecanismos de acción) complementando la recuperación semántica con razonamiento relacional. Frameworks como Neo4j combinados con embeddings de grafos podrían enriquecer significativamente la capacidad de descubrimiento del sistema.
+
+\subsection{Aprendizaje por retroalimentación}
+\label{subsec:fw_feedback}
+
+La incorporación de mecanismos de retroalimentación del usuario (\textit{Reinforcement Learning from Human Feedback}, RLHF) permitiría adaptar progresivamente las estrategias de retrieval y reranking a las preferencias y necesidades específicas de los investigadores, mejorando la relevancia percibida de los resultados.
+
+\subsection{Evaluación clínica y farmacológica}
+\label{subsec:fw_clinical}
+
+La validación de \sirca{} con investigadores activos en farmacognosia y etnobotánica, mediante estudios de usuario longitudinales, proporcionaría evidencia sobre el impacto real del sistema en la productividad investigativa y la calidad del descubrimiento científico.
+
+\subsection{Optimización de modelos y eficiencia}
+\label{subsec:fw_efficiency}
+
+La exploración de técnicas de cuantización (GPTQ, AWQ), destilación de modelos y fine-tuning eficiente (LoRA, QLoRA) para los modelos generativos y de reranking permitiría reducir los requisitos computacionales y mejorar la latencia, facilitando el despliegue en entornos con recursos aún más limitados.
+
+\subsection{Interfaz visual de descubrimiento}
+\label{subsec:fw_interface}
+
+El desarrollo de una interfaz visual interactiva que permita explorar el espacio de conocimiento mediante visualizaciones de clusters temáticos, mapas de co-citación y redes de entidades biomédicas constituye una dirección complementaria que podría mejorar significativamente la experiencia de descubrimiento científico.

@@ -1,0 +1,58 @@
+% ============================================================
+% discussion.tex — Sección X: Discusión
+% ============================================================
+
+\section{Discusión}
+\label{sec:discussion}
+
+Los resultados experimentales proporcionan evidencia preliminar que sustenta la viabilidad y las ventajas de la arquitectura \sirca{} para el descubrimiento de conocimiento biomédico sobre plantas medicinales peruanas. Esta sección analiza las implicaciones de los hallazgos, las limitaciones del estudio y las consideraciones prácticas de la propuesta.
+
+\subsection{Análisis de los hallazgos principales}
+\label{subsec:disc_findings}
+
+\subsubsection{Impacto del retrieval híbrido biomédico}
+
+La mejora consistente de \sirca{} frente a los baselines de retrieval individual (BM25 puro y RAG con embeddings genéricos o biomédicos sin hibridación) confirma la hipótesis de que la combinación de recuperación densa y dispersa es particularmente beneficiosa en dominios biomédicos especializados. La terminología farmacológica y etnobotánica presenta características que favorecen esta complementariedad: términos técnicos específicos (e.g., nombres de compuestos químicos, nomenclatura taxonómica) son mejor capturados por BM25, mientras que las relaciones semánticas entre conceptos (e.g., mecanismos de acción, propiedades terapéuticas) son mejor identificadas por embeddings densos.
+
+El ponderador híbrido $\alpha = 0.6$ sugiere que, en este dominio, la recuperación densa aporta ligeramente más que la dispersa, consistente con la naturaleza exploratoria de las consultas de investigación biomédica.
+
+\subsubsection{Efectividad del grounding documental}
+
+La reducción de la tasa de alucinación de 0.54 (LLM directo) a 0.09 (\sirca{}) representa uno de los hallazgos más significativos del estudio. Esta mejora se atribuye a tres mecanismos complementarios: (i)~la incorporación de documentos de alta relevancia en el contexto de generación; (ii)~las instrucciones explícitas de grounding que condicionan al modelo para fundamentar cada afirmación; y (iii)~la verificación posterior que identifica y corrige afirmaciones no fundamentadas.
+
+No obstante, la tasa residual de alucinación del 9\% indica que el grounding documental no elimina completamente el problema. El análisis cualitativo de las alucinaciones residuales revela dos patrones principales: interpolación semántica (el modelo combina información de múltiples fuentes generando una afirmación no presente en ninguna de ellas) y generalización excesiva (el modelo extiende hallazgos específicos a contextos no documentados).
+
+\subsubsection{Contribución del reranking contextual}
+
+La comparación entre B3 (RAG + BioBERT sin reranking) y \sirca{} (con reranking cross-encoder) demuestra que el reranking contextual aporta una mejora significativa tanto en la calidad de recuperación como en la fidelidad generativa. El cross-encoder, al procesar conjuntamente la consulta y el documento, captura interacciones semánticas que los bi-encoders no detectan, particularmente en consultas complejas que requieren comprensión profunda del contexto biomédico.
+
+\subsection{Limitaciones del estudio}
+\label{subsec:disc_limitations}
+
+El presente estudio presenta limitaciones que deben considerarse al interpretar los resultados:
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Escala del corpus:} El corpus experimental de 3\,485 documentos, aunque representativo, constituye una fracción de la literatura biomédica disponible sobre plantas medicinales peruanas. La evaluación a mayor escala podría revelar desafíos adicionales de escalabilidad y ruido documental.
+
+  \item \textbf{Evaluación por expertos:} Los juicios de relevancia y las respuestas de referencia fueron elaborados por un número limitado de evaluadores. Una evaluación con mayor diversidad de expertos fortalecería la robustez de los resultados.
+
+  \item \textbf{Dominio restringido:} La evaluación se centró en seis especies medicinales peruanas. La generalización a un espectro más amplio de especies y dominios farmacológicos requiere validación adicional.
+
+  \item \textbf{Modelo generativo:} Los resultados se obtuvieron con Mistral~7B Instruct. El rendimiento podría variar significativamente con modelos de diferentes tamaños y capacidades.
+
+  \item \textbf{Métricas automáticas:} Métricas como BERTScore y ROUGE-L, aunque ampliamente utilizadas, presentan limitaciones para capturar la calidad completa de respuestas biomédicas especializadas. La evaluación humana complementaria proporcionaría una perspectiva más completa.
+\end{enumerate}
+
+\subsection{Implicaciones prácticas}
+\label{subsec:disc_implications}
+
+Los resultados demuestran que la construcción de infraestructuras inteligentes de descubrimiento biomédico es viable con recursos computacionales accesibles (GPU de consumo, modelos open-source) y herramientas de código abierto. Esta viabilidad tiene implicaciones significativas para la investigación biomédica en contextos universitarios latinoamericanos, donde los recursos computacionales y los presupuestos para servicios propietarios son típicamente limitados.
+
+La capacidad de adquisición científica automatizada (C4) resulta particularmente relevante para investigadores que necesitan mantenerse actualizados con la producción científica en un dominio específico sin realizar búsquedas manuales recurrentes. La persistencia de la memoria vectorial (C2) permite la acumulación progresiva de conocimiento, generando un recurso institucional de investigación que se enriquece con el tiempo.
+
+\subsection{Consideraciones éticas}
+\label{subsec:disc_ethics}
+
+El desarrollo de sistemas de descubrimiento biomédico automatizado plantea consideraciones éticas relevantes. El respeto a los términos de uso de las APIs científicas (rate limiting, atribución adecuada), la transparencia en la procedencia de la información generada (trazabilidad mediante citas), y la precaución en la interpretación de resultados generados por modelos de IA constituyen aspectos que \sirca{} aborda mediante sus mecanismos de grounding y citación documental.
+
+Adicionalmente, la sistematización del conocimiento etnobotánico tradicional debe realizarse con sensibilidad cultural y respeto hacia las comunidades indígenas que han preservado este conocimiento durante generaciones, en consonancia con los principios del Protocolo de Nagoya.
