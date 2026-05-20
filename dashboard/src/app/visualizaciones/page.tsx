@@ -1,5 +1,5 @@
 import { getPapers, getTaxonomy } from "@/lib/data";
-import { TimelineChart, CategoryRadarChart, TrendLineChart } from "@/components/visualizations/Charts";
+import { TimelineChart, CategoryRadarChart, TrendLineChart } from "@/components/visualizations/ChartsWrapper";
 
 export const dynamic = "force-static";
 
