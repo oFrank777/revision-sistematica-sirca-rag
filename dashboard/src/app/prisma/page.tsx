@@ -1,7 +1,7 @@
 import { getPRISMA } from "@/lib/data";
 import { Database, FileText, CheckCircle, Search, Filter, AlertTriangle } from "lucide-react";
 
-export const dynamic = "force-static";
+
 
 export default async function PrismaPage() {
   const prisma = await getPRISMA();

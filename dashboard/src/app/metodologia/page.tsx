@@ -1,7 +1,7 @@
 import { BookOpen, CheckCircle, Database, LayoutTemplate, PenTool, TestTube } from "lucide-react";
 import papersData from "../../../public/data/papers.json";
 
-export const dynamic = "force-static";
+
 
 export default function MethodologyPage() {
   const dsrPhases = [

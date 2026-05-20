@@ -1,7 +1,7 @@
 import { getPapers, getTaxonomy } from "@/lib/data";
 import PaperTableClient from "./PaperTableClient";
 
-export const dynamic = "force-static";
+
 
 export default async function PapersExplorerPage() {
   const papers = await getPapers();

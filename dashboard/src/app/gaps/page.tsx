@@ -2,7 +2,7 @@ import { getGaps, getPapers } from "@/lib/data";
 import { AlertTriangle, AlertCircle, Info, ChevronRight, Target } from "lucide-react";
 import Link from "next/link";
 
-export const dynamic = "force-static";
+
 
 export default async function GapsPage() {
   const gaps = await getGaps();

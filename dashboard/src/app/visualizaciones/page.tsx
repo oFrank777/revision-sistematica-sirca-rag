@@ -1,7 +1,7 @@
 import { getPapers, getTaxonomy } from "@/lib/data";
 import { TimelineChart, CategoryRadarChart, TrendLineChart } from "@/components/visualizations/ChartsWrapper";
 
-export const dynamic = "force-static";
+
 
 export default async function VisualizationsPage() {
   const papers = await getPapers();

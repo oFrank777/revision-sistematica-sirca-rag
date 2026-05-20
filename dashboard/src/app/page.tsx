@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 // Forzamos que la página sea estática pero que pueda usar los datos
-export const dynamic = "force-static";
+
 
 export default async function DashboardPage() {
   const stats = await getDashboardStats();

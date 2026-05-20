@@ -1,7 +1,7 @@
 import { getPapers } from "@/lib/data";
 import { Network, Link as LinkIcon, GitMerge, FileText } from "lucide-react";
 
-export const dynamic = "force-static";
+
 
 export default async function NetworkPage() {
   const papers = await getPapers();

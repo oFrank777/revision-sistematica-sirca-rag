@@ -2,7 +2,7 @@ import { getPapers } from "@/lib/data";
 import ExportManager from "./ExportManager";
 import { Download, Database, FileSpreadsheet, FileJson, Code } from "lucide-react";
 
-export const dynamic = "force-static";
+
 
 export default async function ExportPage() {
   const papers = await getPapers();
